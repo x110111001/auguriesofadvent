@@ -1,0 +1,1150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Qayamat-e-Sughra — The Auguries of Advent</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+
+/* ── LIGHT MODE VARIABLES ── */
+:root{
+  --ink:#1a1208;--ink-mid:#3d2f1a;--ink-light:#6b5740;
+  --parchment:#f7f1e3;--parchment-dark:#ede5ce;
+  --gold:#8b6914;--gold-pale:#f0e0a0;--rust:#8b3a1a;
+  --border:rgba(139,105,20,0.3);--border-strong:rgba(139,105,20,0.6);
+  --tooltip-bg:#2a1f0e;--nav-bg:#f0e8d2;--nav-width:230px;
+  --base-size:18px;
+  --part-bg:var(--parchment);
+  --guide-bg:var(--parchment);
+  --gloss-even:#ede5ce;
+  --table-even:var(--parchment);
+  --table-hover:var(--gold-pale);
+}
+
+/* ── DARK MODE VARIABLES — system preference (when not forced light) ── */
+@media(prefers-color-scheme:dark){
+  html:not(.light){
+    --ink:#e8dcc8;--ink-mid:#c9b99a;--ink-light:#8a7a62;
+    --parchment:#1e1810;--parchment-dark:#171209;
+    --gold:#c49a2a;--gold-pale:#3a2e0a;--rust:#d4785a;
+    --border:rgba(196,154,42,0.25);--border-strong:rgba(196,154,42,0.45);
+    --tooltip-bg:#f0e0a0;--nav-bg:#1a1510;
+    --part-bg:#1e1810;
+    --guide-bg:#1e1810;
+    --gloss-even:#1a150d;
+    --table-even:#1a150d;
+    --table-hover:#2a2010;
+  }
+}
+/* ── Forced dark via toggle ── */
+html.dark{
+  --ink:#e8dcc8;--ink-mid:#c9b99a;--ink-light:#8a7a62;
+  --parchment:#1e1810;--parchment-dark:#171209;
+  --gold:#c49a2a;--gold-pale:#3a2e0a;--rust:#d4785a;
+  --border:rgba(196,154,42,0.25);--border-strong:rgba(196,154,42,0.45);
+  --tooltip-bg:#f0e0a0;--nav-bg:#1a1510;
+  --part-bg:#1e1810;
+  --guide-bg:#1e1810;
+  --gloss-even:#1a150d;
+  --table-even:#1a150d;
+  --table-hover:#2a2010;
+}
+html.dark .place .tip{color:#2a1f0e;}
+html.dark .book-header::before,html.dark .book-header::after{opacity:0.7;}
+html.dark body::before{background-image:repeating-linear-gradient(0deg,transparent,transparent 28px,rgba(196,154,42,0.02) 28px,rgba(196,154,42,0.02) 29px);}
+@media(prefers-color-scheme:dark){
+  html:not(.light) .place .tip{color:#2a1f0e;}
+  html:not(.light) .book-header::before,html:not(.light) .book-header::after{opacity:0.7;}
+  html:not(.light) body::before{background-image:repeating-linear-gradient(0deg,transparent,transparent 28px,rgba(196,154,42,0.02) 28px,rgba(196,154,42,0.02) 29px);}
+}
+
+html{scroll-behavior:smooth;}
+body{background:var(--parchment-dark);color:var(--ink);font-family:'Crimson Pro',Georgia,serif;font-size:var(--base-size);line-height:1.85;min-height:100vh;}
+body::before{content:'';position:fixed;inset:0;background-image:repeating-linear-gradient(0deg,transparent,transparent 28px,rgba(139,105,20,0.03) 28px,rgba(139,105,20,0.03) 29px);pointer-events:none;z-index:0;}
+
+/* LAYOUT */
+.layout{display:flex;min-height:100vh;position:relative;z-index:1;}
+
+/* SIDENAV */
+.sidenav{width:var(--nav-width);flex-shrink:0;position:sticky;top:0;height:100vh;overflow-y:auto;background:var(--nav-bg);border-right:1px solid var(--border-strong);padding:0 0 3rem;display:flex;flex-direction:column;}
+.sidenav-logo{text-align:center;padding:1.5rem 1rem 1.25rem;border-bottom:1px solid var(--border);margin-bottom:0.5rem;}
+.sidenav-logo .logo-title{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:1rem;color:var(--ink);letter-spacing:0.06em;line-height:1.3;}
+.sidenav-logo .logo-sub{font-style:italic;font-size:0.72rem;color:var(--ink-light);margin-top:0.2rem;}
+
+/* FONT SIZE CONTROL */
+.font-size-control{padding:0.75rem 1rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:0.5rem;}
+.font-size-control label{font-size:0.7rem;color:var(--ink-light);letter-spacing:0.05em;text-transform:uppercase;flex-shrink:0;}
+.font-btn{background:var(--parchment);border:1px solid var(--border-strong);color:var(--ink-mid);cursor:pointer;border-radius:3px;padding:0.2rem 0.55rem;font-family:'Crimson Pro',serif;transition:background 0.15s;line-height:1;}
+.font-btn:hover{background:var(--gold-pale);}
+.font-size-display{font-size:0.72rem;color:var(--gold);font-family:'Cormorant Garamond',serif;min-width:28px;text-align:center;}
+
+.sidenav-parts{padding:0 0.5rem;flex:1;}
+.sidenav-part-label{font-size:0.63rem;text-transform:uppercase;letter-spacing:0.15em;color:var(--gold);font-weight:600;padding:0.75rem 0.75rem 0.2rem;margin-top:0.5rem;}
+.sidenav-link{display:block;padding:0.35rem 0.75rem;font-size:0.8rem;color:var(--ink-mid);text-decoration:none;border-radius:3px;line-height:1.35;transition:background 0.15s,color 0.15s;border-left:2px solid transparent;}
+.sidenav-link:hover{background:var(--parchment);color:var(--ink);}
+.sidenav-link.active{background:var(--gold-pale);border-left-color:var(--gold);color:var(--ink);font-weight:600;}
+.sidenav-link.dim{color:var(--ink-light);opacity:0.6;}
+.sidenav-footer{padding:0.75rem 1rem 0;border-top:1px solid var(--border);margin-top:auto;font-size:0.68rem;color:var(--ink-light);font-style:italic;text-align:center;line-height:1.5;}
+
+/* MAIN */
+.main-content{flex:1;min-width:0;padding:0 3.5rem 6rem 3.5rem;max-width:820px;}
+
+/* HEADER */
+.book-header{text-align:center;padding:4rem 2rem 3rem;border-bottom:1px solid var(--border-strong);margin-bottom:3rem;position:relative;}
+.book-header::before,.book-header::after{content:"\2767";display:block;font-size:1.4rem;color:var(--gold);margin-bottom:1rem;}
+.book-header::after{margin-bottom:0;margin-top:1.5rem;}
+.arabic-greeting{font-family:'IM Fell English',serif;font-style:italic;font-size:0.95rem;color:var(--ink-light);letter-spacing:0.05em;margin-bottom:1.5rem;}
+.book-title{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:3rem;letter-spacing:0.08em;color:var(--ink);line-height:1.2;margin-bottom:0.4rem;}
+.book-subtitle{font-family:'Crimson Pro',serif;font-style:italic;font-size:1.3rem;color:var(--ink-light);letter-spacing:0.04em;margin-bottom:2rem;}
+.publication-meta{font-size:0.85rem;color:var(--ink-light);line-height:1.9;font-style:italic;}
+.publication-meta strong{font-weight:600;font-style:normal;color:var(--ink-mid);}
+
+/* GUIDE */
+.guide-panel{background:var(--guide-bg);border:1px solid var(--border-strong);border-radius:4px;padding:1.1rem 1.4rem;margin:0 0 2.5rem;font-size:0.88rem;color:var(--ink-mid);line-height:1.7;}
+.guide-panel strong{color:var(--gold);font-weight:600;}
+
+/* SECTIONS */
+.book-section{margin-bottom:3.5rem;scroll-margin-top:5rem;}
+.section-heading{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:1.4rem;color:var(--ink);text-align:center;letter-spacing:0.1em;text-transform:uppercase;margin:0 0 1.4rem;}
+.section-heading::before{content:"\2726 ";color:var(--gold);font-size:0.7em;}
+.section-heading::after{content:" \2726";color:var(--gold);font-size:0.7em;}
+.subsection-heading{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:1.1rem;color:var(--ink-mid);margin:1.8rem 0 0.8rem;letter-spacing:0.05em;}
+
+/* PROSE */
+.para-row{display:flex;gap:0;align-items:flex-start;margin-bottom:1.2rem;}
+.page-ref{flex-shrink:0;width:2.8rem;margin-left:-3.2rem;padding-top:0.25rem;font-size:0.6rem;color:var(--gold);font-family:'Cormorant Garamond',serif;letter-spacing:0.04em;text-align:right;padding-right:0.5rem;line-height:1.6;user-select:none;opacity:0.7;}
+.para-text{flex:1;min-width:0;text-align:justify;hyphens:auto;}
+.drop-cap::first-letter{font-family:'Cormorant Garamond',serif;font-size:3.5rem;font-weight:600;float:left;line-height:0.8;margin:0.1em 0.1em 0 0;color:var(--gold);padding-top:0.05em;}
+
+/* ORNAMENT */
+.ornament-line{display:flex;align-items:center;gap:1rem;margin:2.5rem 0;}
+.ornament-line::before,.ornament-line::after{content:'';flex:1;height:1px;background:var(--border-strong);}
+.ornament-line span{color:var(--gold);font-size:0.9rem;}
+
+/* ATTRIBUTION */
+.attribution{text-align:right;font-style:italic;color:var(--ink-light);font-size:0.92rem;margin-top:1rem;margin-bottom:0.2rem;}
+.attribution-title{font-size:0.8rem;color:var(--ink-light);text-align:right;}
+.nb-note{font-size:0.86rem;color:var(--ink-light);font-style:italic;border-left:2px solid var(--border-strong);padding-left:1rem;margin-top:1.2rem;}
+.epigraph{text-align:center;font-style:italic;color:var(--ink-light);margin-bottom:1.4rem;font-size:0.9rem;}
+
+/* PLACES */
+.place{color:var(--rust);font-style:italic;cursor:help;border-bottom:1px dashed var(--rust);position:relative;white-space:nowrap;}
+.place .tip{visibility:hidden;opacity:0;position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:var(--tooltip-bg);color:#2a1f0e;font-family:'Crimson Pro',serif;font-style:normal;font-size:0.78rem;line-height:1.5;padding:0.4rem 0.8rem;border-radius:3px;white-space:normal;width:max-content;max-width:min(260px,80vw);text-align:center;z-index:200;transition:opacity 0.18s ease;pointer-events:none;box-shadow:0 2px 10px rgba(0,0,0,0.4);}
+.place .tip.edge-left{left:0;transform:translateX(0);}
+.place .tip.edge-left::after{left:1rem;}
+.place .tip.edge-right{left:auto;right:0;transform:translateX(0);}
+.place .tip.edge-right::after{left:auto;right:1rem;transform:none;}
+.place .tip::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:5px solid transparent;border-top-color:var(--tooltip-bg);}
+.place:hover .tip,.place:focus .tip{visibility:visible;opacity:1;}
+@media(prefers-color-scheme:light){html:not(.dark) .place .tip{color:#f0e0a0;}}
+
+/* LISTS */
+.portent-list{list-style:none;padding:0;margin:0.5rem 0 1rem;}
+.portent-list li{padding:0.3rem 0 0.3rem 1.5rem;position:relative;border-bottom:1px solid var(--border);font-size:0.95em;}
+.portent-list li::before{content:'';position:absolute;left:0.4rem;top:0.85rem;width:5px;height:5px;background:var(--gold);border-radius:50%;}
+
+/* GLOSSARY */
+.glossary-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:0;border:1px solid var(--border);border-radius:4px;overflow:hidden;margin:1.2rem 0;font-size:0.86rem;}
+.glossary-item{display:flex;align-items:baseline;gap:0.6rem;padding:0.5rem 0.9rem;border-bottom:1px solid var(--border);background:var(--parchment);}
+.glossary-item:nth-child(even){background:var(--gloss-even);}
+.glossary-old{font-style:italic;color:var(--rust);font-weight:600;min-width:110px;flex-shrink:0;}
+.glossary-arrow{color:var(--gold);flex-shrink:0;}
+.glossary-new{color:var(--ink-mid);}
+
+/* COMPANIONS TABLE */
+.companions-table{width:100%;border-collapse:collapse;font-size:0.82rem;margin:1rem 0;}
+.companions-table th{background:var(--parchment-dark);color:var(--ink-mid);font-weight:600;padding:0.5rem 0.75rem;text-align:left;border-bottom:2px solid var(--border-strong);font-family:'Cormorant Garamond',serif;letter-spacing:0.05em;}
+.companions-table td{padding:0.4rem 0.75rem;border-bottom:1px solid var(--border);vertical-align:top;color:var(--ink);}
+.companions-table tr:nth-child(even) td{background:var(--table-even);}
+.companions-table tr:hover td{background:var(--table-hover);}
+
+/* PART BANNER */
+.part-banner{background:var(--part-bg);border:1px solid var(--border-strong);border-radius:4px;text-align:center;padding:1.5rem 2rem;margin:2rem 0 3rem;}
+.part-banner .part-num{font-family:'Cormorant Garamond',serif;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.2em;color:var(--gold);margin-bottom:0.4rem;}
+.part-banner .part-title{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:300;color:var(--ink);letter-spacing:0.06em;}
+
+/* FOOTER */
+.book-footer{text-align:center;padding:3rem 0 1rem;border-top:1px solid var(--border);font-size:0.8rem;color:var(--ink-light);font-style:italic;margin-top:4rem;}
+
+/* THEME TOGGLE */
+.theme-btn{font-size:0.85rem;min-width:1.6rem;}
+
+/* ── MOBILE TOP BAR ── */
+.mobile-topbar{display:none;position:sticky;top:0;z-index:300;background:var(--nav-bg);border-bottom:1px solid var(--border-strong);padding:0.6rem 1rem;align-items:center;gap:0.75rem;}
+.mobile-title{font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:600;color:var(--ink);letter-spacing:0.05em;flex:1;text-align:center;}
+.mobile-menu-btn{background:none;border:1px solid var(--border-strong);border-radius:3px;color:var(--ink);cursor:pointer;padding:0.3rem 0.6rem;font-size:1rem;line-height:1;}
+.mobile-font-row{display:flex;align-items:center;gap:0.4rem;}
+
+/* ── MOBILE DRAWER ── */
+.mobile-drawer{display:none;position:fixed;inset:0;z-index:400;}
+.drawer-backdrop{position:absolute;inset:0;background:rgba(0,0,0,0.55);}
+.drawer-panel{position:absolute;top:0;left:0;width:80vw;max-width:320px;height:100%;background:var(--nav-bg);border-right:1px solid var(--border-strong);overflow-y:auto;padding:0 0 3rem;display:flex;flex-direction:column;transform:translateX(-100%);transition:transform 0.25s ease;}
+.drawer-panel.open{transform:translateX(0);}
+.drawer-header{display:flex;align-items:center;justify-content:space-between;padding:1rem 1rem 0.75rem;border-bottom:1px solid var(--border);}
+.drawer-title{font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:600;color:var(--ink);letter-spacing:0.05em;}
+.drawer-close{background:none;border:none;font-size:1.4rem;color:var(--ink-light);cursor:pointer;padding:0 0.25rem;line-height:1;}
+.drawer-font-row{display:flex;align-items:center;gap:0.5rem;padding:0.6rem 1rem;border-bottom:1px solid var(--border);}
+.drawer-font-row label{font-size:0.7rem;color:var(--ink-light);text-transform:uppercase;letter-spacing:0.05em;flex-shrink:0;}
+.drawer-nav{padding:0.5rem;}
+.drawer-part-label{font-size:0.63rem;text-transform:uppercase;letter-spacing:0.15em;color:var(--gold);font-weight:600;padding:0.75rem 0.75rem 0.2rem;margin-top:0.5rem;}
+.drawer-link{display:block;padding:0.4rem 0.75rem;font-size:0.85rem;color:var(--ink-mid);text-decoration:none;border-radius:3px;line-height:1.4;border-left:2px solid transparent;}
+.drawer-link.active{background:var(--gold-pale);border-left-color:var(--gold);color:var(--ink);font-weight:600;}
+
+/* ── RESPONSIVE ── */
+@media(max-width:768px){
+  .sidenav{display:none;}
+  .mobile-topbar{display:flex;}
+  .main-content{padding:0 1rem 5rem;}
+  .page-ref{display:none;}
+  .book-header{padding:2.5rem 1rem 2rem;}
+  .book-title{font-size:2.2rem;}
+  .book-subtitle{font-size:1.1rem;}
+  .section-heading{font-size:1.2rem;letter-spacing:0.06em;}
+  .part-banner .part-title{font-size:1.3rem;}
+  .glossary-grid{grid-template-columns:1fr;}
+  .companions-table{font-size:0.75rem;}
+  .companions-table th,.companions-table td{padding:0.35rem 0.5rem;}
+  .guide-panel{font-size:0.82rem;}
+  .drop-cap::first-letter{font-size:2.8rem;}
+}
+</style>
+</head>
+<body>
+<div id="mobile-drawer" class="mobile-drawer" aria-hidden="true">
+  <div class="drawer-backdrop" id="drawer-backdrop"></div>
+  <div class="drawer-panel" id="drawer-panel" role="dialog" aria-label="Navigation">
+    <div class="drawer-header">
+      <span class="drawer-title">Qayamat-e-Sughra</span>
+      <button class="drawer-close" id="drawer-close" aria-label="Close navigation">×</button>
+    </div>
+    <div class="drawer-font-row">
+      <label>Text</label>
+      <button class="font-btn" id="mob-fs-down">A−</button>
+      <span class="font-size-display" id="mob-fs-val">18</span>
+      <button class="font-btn" id="mob-fs-up">A+</button>
+    </div>
+    <nav class="drawer-nav">
+      <div class="drawer-part-label">Part I — Front Matter</div>
+      <a class="drawer-link" href="#introduction">Introduction of the Compiler</a>
+      <a class="drawer-link" href="#dedication">Dedication</a>
+      <a class="drawer-link" href="#acknowledgements">Acknowledgements</a>
+      <a class="drawer-link" href="#opinion">Opinion — Sana-ul-Haq Siddiqi</a>
+      <a class="drawer-link" href="#jouhari">Prefatory Note — Talib Jouhari</a>
+      <a class="drawer-link" href="#glossary-1">Glossary I</a>
+      <div class="drawer-part-label">Part II — Foundations</div>
+      <a class="drawer-link" href="#author-note">Prefatory Note by the Author</a>
+      <a class="drawer-link" href="#necessity">Necessity of an Imam</a>
+      <a class="drawer-link" href="#occultation">Occultation</a>
+      <a class="drawer-link" href="#ponder">Points to Ponder</a>
+      <a class="drawer-link" href="#qayamat">Day of Judgement</a>
+      <a class="drawer-link" href="#augury-types">Types of Auguries</a>
+      <a class="drawer-link" href="#common-auguries">Common Auguries</a>
+      <a class="drawer-link" href="#imam-sadiq-pred">Imam Sadiq's Predictions</a>
+      <a class="drawer-link" href="#special-portents">Special Portents</a>
+      <a class="drawer-link" href="#glossary-2">Glossary II</a>
+      <div class="drawer-part-label">Part III — The Signs</div>
+      <a class="drawer-link" href="#essa">Arrival of Hazrat Essa</a>
+      <a class="drawer-link" href="#baghdad-dest">Destruction of Baghdad</a>
+      <a class="drawer-link" href="#hasani">Revolt of the Hasani Sayyed</a>
+      <a class="drawer-link" href="#future-portents">Future Portents</a>
+      <a class="drawer-link" href="#arabic-book">Excerpts from Arabic Book</a>
+      <a class="drawer-link" href="#who-are-turks">Who Are the Turks?</a>
+      <a class="drawer-link" href="#sufyani">Sufyani's Rise and Fall</a>
+      <a class="drawer-link" href="#dajjal">Dajjal</a>
+      <a class="drawer-link" href="#summary-signs">Summary of Signs</a>
+      <a class="drawer-link" href="#jean-dixon">Jean Dixon's Visions</a>
+      <a class="drawer-link" href="#shah-wali">Shah Naimatullah Wali</a>
+      <a class="drawer-link" href="#glossary-3">Glossary III</a>
+      <div class="drawer-part-label">Part IV — Companions &amp; Conclusions</div>
+      <a class="drawer-link" href="#companions-table">Companions Table</a>
+      <a class="drawer-link" href="#the-313">The 313 Men</a>
+      <a class="drawer-link" href="#brief-summary">Brief Summary of Signs</a>
+      <a class="drawer-link" href="#iraqis">Plight of Iraqis</a>
+      <a class="drawer-link" href="#astrology">Astrology &amp; Advent</a>
+      <a class="drawer-link" href="#soteba">Soteba the Astrologer</a>
+      <a class="drawer-link" href="#jamasp">Jamasp the Iranian Sage</a>
+      <a class="drawer-link" href="#jean-dixon-2">Jean Dixon Recalled</a>
+      <a class="drawer-link" href="#compiler-note">Compiler's Notes</a>
+      <a class="drawer-link" href="#conclusions">Concluding Discussions</a>
+      <a class="drawer-link" href="#glossary-4">Glossary IV</a>
+    </nav>
+  </div>
+</div>
+
+<header class="mobile-topbar" id="mobile-topbar">
+  <button class="mobile-menu-btn" id="menu-open" aria-label="Open navigation">☰</button>
+  <span class="mobile-title" id="mobile-current-section">Qayamat-e-Sughra</span>
+  <div class="mobile-font-row">
+    <button class="font-btn" id="top-fs-down" aria-label="Decrease text">A−</button>
+    <button class="font-btn" id="top-fs-up" aria-label="Increase text">A+</button>
+    <button class="font-btn theme-btn" id="mob-theme-toggle" aria-label="Toggle day/night">☀</button>
+  </div>
+</header>
+
+<div class="layout">
+<!-- SIDE NAV -->
+<nav class="sidenav" id="sidenav" aria-label="Book navigation">
+  <div class="sidenav-logo">
+    <div class="logo-title">Qayamat-e-Sughra</div>
+    <div class="logo-sub">The Auguries of Advent</div>
+  </div>
+  <div class="font-size-control">
+    <label>Text</label>
+    <button class="font-btn" id="fs-down" aria-label="Decrease font size">A−</button>
+    <span class="font-size-display" id="fs-val">18</span>
+    <button class="font-btn" id="fs-up" aria-label="Increase font size">A+</button>
+    <button class="font-btn theme-btn" id="theme-toggle" aria-label="Toggle day/night mode" title="Toggle day/night">☀</button>
+  </div>
+  <div class="sidenav-parts">
+    <div class="sidenav-part-label">Part I — Front Matter</div>
+    <a class="sidenav-link" href="#introduction">Introduction of the Compiler</a>
+    <a class="sidenav-link" href="#dedication">Dedication</a>
+    <a class="sidenav-link" href="#acknowledgements">Acknowledgements</a>
+    <a class="sidenav-link" href="#opinion">Opinion — Sana-ul-Haq Siddiqi</a>
+    <a class="sidenav-link" href="#jouhari">Prefatory Note — Talib Jouhari</a>
+    <a class="sidenav-link" href="#glossary-1">Glossary I</a>
+
+    <div class="sidenav-part-label">Part II — Foundations</div>
+    <a class="sidenav-link" href="#author-note">Prefatory Note by the Author</a>
+    <a class="sidenav-link" href="#necessity">Necessity of an Imam</a>
+    <a class="sidenav-link" href="#occultation">Occultation</a>
+    <a class="sidenav-link" href="#ponder">Points to Ponder</a>
+    <a class="sidenav-link" href="#qayamat">Day of Judgement</a>
+    <a class="sidenav-link" href="#augury-types">Types of Auguries</a>
+    <a class="sidenav-link" href="#common-auguries">Common Auguries</a>
+    <a class="sidenav-link" href="#imam-sadiq-pred">Imam Sadiq's Predictions</a>
+    <a class="sidenav-link" href="#special-portents">Special Portents</a>
+    <a class="sidenav-link" href="#glossary-2">Glossary II</a>
+
+    <div class="sidenav-part-label">Part III — The Signs</div>
+    <a class="sidenav-link" href="#essa">Arrival of Hazrat Essa</a>
+    <a class="sidenav-link" href="#baghdad-dest">Destruction of Baghdad</a>
+    <a class="sidenav-link" href="#hasani">Revolt of the Hasani Sayyed</a>
+    <a class="sidenav-link" href="#future-portents">Future Portents</a>
+    <a class="sidenav-link" href="#arabic-book">Excerpts from Arabic Book</a>
+    <a class="sidenav-link" href="#who-are-turks">Who Are the Turks?</a>
+    <a class="sidenav-link" href="#sufyani">Sufyani's Rise and Fall</a>
+    <a class="sidenav-link" href="#dajjal">Dajjal</a>
+    <a class="sidenav-link" href="#summary-signs">Summary of Signs</a>
+    <a class="sidenav-link" href="#jean-dixon">Jean Dixon's Visions</a>
+    <a class="sidenav-link" href="#shah-wali">Shah Naimatullah Wali</a>
+    <a class="sidenav-link" href="#glossary-3">Glossary III</a>
+
+    <div class="sidenav-part-label">Part IV — Companions &amp; Conclusions</div>
+    <a class="sidenav-link" href="#companions-table">Companions Table</a>
+    <a class="sidenav-link" href="#the-313">The 313 Men</a>
+    <a class="sidenav-link" href="#brief-summary">Brief Summary of Signs</a>
+    <a class="sidenav-link" href="#iraqis">Plight of Iraqis</a>
+    <a class="sidenav-link" href="#astrology">Astrology &amp; Advent</a>
+    <a class="sidenav-link" href="#soteba">Soteba the Astrologer</a>
+    <a class="sidenav-link" href="#jamasp">Jamasp the Iranian Sage</a>
+    <a class="sidenav-link" href="#jean-dixon-2">Jean Dixon Recalled</a>
+    <a class="sidenav-link" href="#compiler-note">Compiler's Notes</a>
+    <a class="sidenav-link" href="#conclusions">Concluding Discussions</a>
+    <a class="sidenav-link" href="#glossary-4">Glossary IV</a>
+  </div>
+  <div class="sidenav-footer">
+    Original: Karachi, 1979<br>
+    Modernised edition, 2025<br>
+    <em>Hover place names for modern equivalents</em>
+  </div>
+</nav>
+<!-- MAIN CONTENT -->
+<main class="main-content">
+
+<header class="book-header" id="top">
+  <p class="arabic-greeting">As Salamo Alaika Ya Sahibuz-Zaman — Al Ajal, Al Ajal</p>
+  <h1 class="book-title">Qayamat-e-Sughra</h1>
+  <p class="book-subtitle">The Auguries of Advent</p>
+  <div class="publication-meta">
+    <strong>Compiled by:</strong> Al-Hajj Molana Syyed Mohammad Abbas Qamar Zaidi<br>
+    <strong>Translated by:</strong> Raza Hussain Rahmatullah Moledina<br>
+    <strong>Modernised &amp; Annotated:</strong> This edition, 2025<br>
+    <em>Original published Karachi, November 1979</em>
+  </div>
+</header>
+
+<div class="guide-panel">
+  <strong>How to read this edition —</strong>
+  Place names from the original text appear in <span class="place" style="pointer-events:none;cursor:default;border-bottom:1px dashed var(--rust);">this style</span>. Hover or tap any highlighted name to see its modern equivalent. Small gold numerals in the left margin (e.g. <span style="font-size:0.6rem;color:var(--gold);font-family:'Cormorant Garamond',serif;">p.vii</span>) indicate the corresponding page in the original 1979 printed edition. Use the A− / A+ buttons in the left panel to adjust text size.
+</div>
+
+<!-- ═══════════════════ PART I ═══════════════════ -->
+<div class="part-banner">
+  <div class="part-num">Part I</div>
+  <div class="part-title">Front Matter</div>
+</div>
+
+<section class="book-section" id="introduction">
+<h2 class="section-heading">A Brief Introduction of the Compiler</h2>
+<div class="para-row"><span class="page-ref">p.vii</span><p class="para-text drop-cap">Alhajj Molana Sayyed Mohammad Abbas "Qamar" Zaidi is better known as Doctor Maulana Sayyed Qamar Abbas Zaidi. He was born in a famous Sayyed family of Behra Sadaat, District <span class="place">Muzaffar Nagar<span class="tip">Muzaffarnagar district · Uttar Pradesh, India</span></span> (Uttar Pradesh, India). These Sayyeds are well known as Sadaat-e-Bareha. His father Sayyed Amir Abbas Zaidi was a middle-class Zamindar — a respectable man and famous Zakir. His mother belonged to a well-to-do family of Kablawdah, also from Sadaat-e-Bareha.</p></div>
+<div class="para-row"><span class="page-ref"></span><p class="para-text">Maulana Zaidi received primary education in his own village and thereafter got further education in Urdu, Arabic, Persian and English at Mansabiyah Arabic College and Faiz-e-Aam Muslim College, <span class="place">Meerut<span class="tip">Meerut · Uttar Pradesh, India (unchanged)</span></span>. In 1947 India was partitioned and, though he had not finished his education, he came to <span class="place">Karachi<span class="tip">Karachi · Sindh, Pakistan</span></span> and joined the Education Department of the Government of Pakistan.</p></div>
+<div class="para-row"><span class="page-ref"></span><p class="para-text">From boyhood he was fond of oratory, which he channelled into Majalis. As a result he is considered a successful Zakir of Imam Husain (A.S.), acknowledged throughout both former East Pakistan and present-day Pakistan.</p></div>
+<div class="para-row"><span class="page-ref">p.viii</span><p class="para-text">He is also a prolific writer. His books — <em>Asar-e-Qayamat</em> (The Signs of Doomsday), <em>Irfan-e-Imamat</em> (The Recognition of Divine Leadership), <em>Zaid-e-Shaheed</em> (Zaid the Martyr), <em>Qayamat-e-Sughra</em> (Partial Resurrection), <em>Shaheed-e-Salis</em> (The Third Martyr), <em>Miftah-ul-Hajat</em> (Keys to Wish-Fulfilment), <em>Rahbar-e-Hajj wa Ziyarat</em> (Guide to Hajj and Ziyarat), <em>Rahbar-e-Ma Khumaini</em> (Khumaini Our Leader), and <em>Five Weeks in the Iran of Ayatullah Khumaini</em> — are very popular. Being religious-minded since childhood he visited the holy places five times and in 1974 performed Hajj. After the Islamic Revolution of May 1979 he visited Iran as a member of a religious delegation and called upon Ayatullah Khumaini.</p></div>
+<div class="para-row"><span class="page-ref"></span><p class="para-text">He has always been in the forefront of religious movements. To serve his community he established Anjooman-e-Tanzeem-e-Sadaat-e-Bareha (Regd.) and founded Sadaat-e-Bareha Cooperative Housing Society Ltd. He also serves as Finance Secretary of Tanzeem-e-Khairul Amal (Registered), Sadat Colony, Federal 'B' Area, Karachi.</p></div>
+<div class="para-row"><span class="page-ref">p.ix</span><p class="para-text">He is totally cheerful, sympathetic and amiable — yet courageous, straightforward and outspoken, with an intrinsic dislike of flattery and sycophancy. He practices Homoeopathy in his spare time. For us Mr. Zaidi is worthy of hearty congratulations — despite being a busy man he continues to write as a service to religion. We pray to God through the good offices of the Fourteen Infallibles to accept the labours of Molana and grant continuity to his pen. Ameen.</p></div>
+<p class="attribution">S. Akhtar Mehmood Rizvi</p>
+<p class="attribution-title">General Secretary, Maktab-e-Meraj-e-Adab · December 1975</p>
+<p class="nb-note"><strong>N.B.</strong> — The names of the last two books and the lines regarding the compiler's journey to Iran after the Islamic Revolution have been added subsequently.</p>
+</section>
+
+<div class="ornament-line"><span>✦ ✦ ✦</span></div>
+
+<section class="book-section" id="dedication">
+<h2 class="section-heading">Dedication</h2>
+<div class="para-row"><span class="page-ref">p.x</span><p class="para-text drop-cap">The ship of human destiny is gradually nearing its doom in the perilous whirlpool of Materialism. The so-called scientific progress has increased the greed of man to such an extent that he lusts to gain control over Venus, Moon and Sun — made thereby oblivious to the problems of earth.</p></div>
+<div class="para-row"><span class="page-ref"></span><p class="para-text">The protagonists of culture have degraded humanity so low in the abyss of shamelessness that perhaps the brows of patriarch Adam are wet with sweat of humiliation.</p></div>
+<div class="para-row"><span class="page-ref"></span><p class="para-text">Apparently the world is full of light but dark shadows of ignorance are spreading far and wide. The progeny of Shatan (the Devil) has perfected its design to avenge its dishonour from the progeny of Adam. Horrible circumstances and tumults of crime have closed the doors of human emancipation.</p></div>
+<div class="para-row"><span class="page-ref"></span><p class="para-text">But the only ray of hope in this realm of hopelessness is the light of your self, which shines despite the unseen curtain. I implore you, O Master — manifest yourself and shorten the moments of our longing for you, lest we lose patience. Pray, unfold the covering of invisibility and let your light illumine the world.</p></div>
+<div class="para-row"><span class="page-ref"></span><p class="para-text">Testify these words of the Almighty: <em>"God will perfect His light, though the unbelievers be averse."</em> Your advent is the sign of the arrival of the Day of Resurrection, but your absence is no less painful than Doomsday itself. The suffering humanity needs you. I have perfect faith in your coming and hence — as a good tiding of your manifestation and a form of welcome — I humbly present this book <em>Qayamat-e-Sughra</em> at your holy feet. I hope that you accept me as your humble slave, and that this might be the means of my salvation.</p></div>
+<p class="attribution">Qamar Zaidi</p>
+</section>
+
+<div class="ornament-line"><span>✦ ✦ ✦</span></div>
+
+<section class="book-section" id="acknowledgements">
+<h2 class="section-heading">Acknowledgements</h2>
+<p class="epigraph">"Help one another in goodness and piety"</p>
+<div class="para-row"><span class="page-ref">p.xi</span><p class="para-text drop-cap">About a few years ago I compiled auguries about the advent of Imam Mahdi (A.S.) and published them in a book entitled <em>Qayamat-e-Sughra</em> in Urdu. It was the need of the hour and that book became so popular that its fourth edition is now under print. It was my heart's desire to publish this book in English also, so that Westernised people as well as the dwellers of European countries may realise the veracity of Islam and the existence of a divine leader on earth.</p></div>
+<div class="para-row"><span class="page-ref"></span><p class="para-text">The task was a gigantic one, but thank God, the invisible Charismatic Leader extended a helping hand and some earnest, religious-minded, well-wishing youth carried on this mission. They urged me to keep their names secret so that there might not be any decrease in their divine reward. I express my gratitude for those young men and pray to God for their material and spiritual advancement. May their efforts see the fruits of fulfilment — Ameen.</p></div>
+<div class="para-row"><span class="page-ref"></span><p class="para-text">I am also thankful to the translator Mr. Raza Husain, and all those who helped me in any manner in the publication of this book. I witness the accelerated pace of the changing circumstances and feel that the hour of advent is nearing. The study of the auguries will add zeal to our seeking, so that we may also be counted among the helpers of Imam.</p></div>
+<p class="attribution">Sayed Mohammed Abbas Qamar Zaidi · 15th September 1979</p>
+</section>
+
+<div class="ornament-line"><span>✦ ✦ ✦</span></div>
+
+<section class="book-section" id="opinion">
+<h2 class="section-heading">Opinion</h2>
+<p class="epigraph">By Molana Sana-ul-Haq Siddiqi, M.A.</p>
+<div class="para-row"><span class="page-ref">p.xii</span><p class="para-text drop-cap">It is incumbent upon every Muslim that he should believe in the Day of Resurrection. The knowledge of consequences prevents a man from wrong-doing and as such it has been made a tenet of religion. In many verses of the Holy Quran, Resurrection is mentioned explicitly. In the chapter <em>Earthquake</em>, the description is so vivid that even the vibration of the word is sufficient to pass a tremor throughout the body. The belief in Resurrection should not only be a source of fear but a base of character building.</p></div>
+<div class="para-row"><span class="page-ref"></span><p class="para-text">Even if we set aside religious faith, common sense tells us that where there is a beginning there is an end. The great physicist Sir James Jeans in his famous book <em>Mysteries of the Universe</em> discusses this topic from a purely materialistic viewpoint. His conclusion: <em>"All our hopes are ultimately doomed to hopelessness. All our victories and triumphs will end with the end of humanity. The universe will then be as if it did not exist at all."</em></p></div>
+<div class="para-row"><span class="page-ref">p.xiii</span><p class="para-text">How Resurrection will occur and in what shape is known only to God. We are given only a few hints — the great earthquake, and so on. It is quite possible that the core of the earth may undergo physical changes of a very high degree resulting in changes on the surface. Scientists project many hypotheses: one such is that the sun is a star of the Nova group — it will expand so much that the earth will merge in its expanse and thus lose its independent identity. Any how, how God will end His universe is His alone to know.</p></div>
+<div class="para-row"><span class="page-ref">p.xiv</span><p class="para-text">Every great event is followed by certain premonitions. There are therefore portents for this great happening also. Some of the auguries were prophesied by the great Prophet of Islam (S.A.). A number of presages have already taken place. The most conspicuous sign is that the majority of mankind is engrossed in sinful pursuits and, instead of repentance, feels pride in it. Iqbal puts the following words in the mouth of Satan: <em>"The architect is bent upon destroying his own creation."</em></p></div>
+<div class="para-row"><span class="page-ref"></span><p class="para-text">Moulana Zaidi has bisected <em>Qayamat</em> and named his monograph <em>Qayamat-e-Sughra</em> — that is, small Qayamat or Partial Resurrection — which is prefatory to total Resurrection. Partial Resurrection is thus a revolutionary process. Deeds done in this life will deserve reward or punishment after total Resurrection, and it should be perceived as a conceptual totality. The readers may perhaps differ with some propositions of Maulana Zaidi, but none may differ with his motive — that is, to wean away mankind from evil and turn it towards goodness.</p></div>
+<p class="attribution">Sana-ul-Haq Siddiqi</p>
+</section>
+
+<div class="ornament-line"><span>✦ ✦ ✦</span></div>
+
+<section class="book-section" id="jouhari">
+<h2 class="section-heading">Prefatory Note by Hujjatul Islam Talib Jouhari</h2>
+<div class="para-row"><span class="page-ref">p.xv</span><p class="para-text drop-cap">In the name of God, the Merciful, the Compassionate. I have before me the matter of the book <em>Qayamat-e-Sughra</em>. In it are compiled the portents of the advent of Imam Mahdi (A.S.) — a matter of unanimity among the Muslims from the beginning of Islam up to this day. Shia writers have done much in this field and their research is worthy of commendation; the efforts of Sunni writers are also noteworthy.</p></div>
+<div class="para-row"><span class="page-ref">p.xvi</span><p class="para-text">There are plenty of authentic and compact Ahadith. It is essential therefore to present before the public knowledge about the true Mahdi in simple language, so as to close the doors of misguidance. For example, a sect claims that Prophet Jesus and Imam Mahdi are one person. In this matter, if a person knows that Jesus will come to <em>help</em> Imam Mahdi (A.S.) and will offer prayers in his leadership, the matter will solve itself. There is a Hadith: <em>"La Mahdi Illa Masih — There won't be Mahdi without Messiah."</em> However, a large number of Ahadith propound the Messiah to be an Israelite and Mahdi to be a progeny of Mohammad — thus Mahdi and Messiah are two different persons.</p></div>
+<div class="para-row"><span class="page-ref">p.xix</span><p class="para-text">Collecting particular Ahadith is not a difficult task, but verification is a tough job. Hence it is essential to give particular attention to these matters:</p></div>
+<div class="para-row"><span class="page-ref"></span><p class="para-text"><strong>(1)</strong> Kufic script passed through several changes before reaching us, formerly devoid of dots and vowel signs. For example, a Hadith may read either "Banners will be burned in the streets of <span class="place">Koofa<span class="tip">Kufa · Najaf Governorate, Iraq</span></span>" or "Banners will be <em>torn</em> in the streets of Koofa." Another example: the Hadith about Auf-e-Salmi states his residence is <span class="place">Tikrit<span class="tip">Tikrit · Saladin Governorate, Iraq</span></span> — in Kufic it is possible to read it as his residence is in <span class="place">Kuwait<span class="tip">Kuwait City · Kuwait</span></span>. Both places are located in Arabia but certainty is impossible either way.</p></div>
+<div class="para-row"><span class="page-ref"></span><p class="para-text"><strong>(2)</strong> In narratives, the names of cities and places are given in ancient forms now out of usage. It is necessary to give modern names of the places and cities besides ancient ones to make the Hadith explanatory. <strong>(3)</strong> Full background of the Hadith should be given — who narrated it, before whom, where — so that references given may be easily recognised.</p></div>
+<p class="attribution">Talib Jouhari</p>
+</section>
+
+<div class="ornament-line"><span>✦ ✦ ✦</span></div>
+
+<section class="book-section" id="glossary-1">
+<h2 class="section-heading">Geographical Glossary — Part I</h2>
+<p class="epigraph">Historical place names in this section and their modern equivalents</p>
+<div class="glossary-grid">
+  <div class="glossary-item"><span class="glossary-old">Koofa / Kufa</span><span class="glossary-arrow">→</span><span class="glossary-new">Kufa, Najaf Governorate, <strong>Iraq</strong></span></div>
+  <div class="glossary-item"><span class="glossary-old">Tikrit</span><span class="glossary-arrow">→</span><span class="glossary-new">Tikrit, Saladin Governorate, <strong>Iraq</strong></span></div>
+  <div class="glossary-item"><span class="glossary-old">Kuit</span><span class="glossary-arrow">→</span><span class="glossary-new">Kuwait City, <strong>Kuwait</strong></span></div>
+  <div class="glossary-item"><span class="glossary-old">Meerut</span><span class="glossary-arrow">→</span><span class="glossary-new">Meerut, Uttar Pradesh, <strong>India</strong></span></div>
+  <div class="glossary-item"><span class="glossary-old">Muzaffar Nagar</span><span class="glossary-arrow">→</span><span class="glossary-new">Muzaffarnagar, Uttar Pradesh, <strong>India</strong></span></div>
+  <div class="glossary-item"><span class="glossary-old">Karachi</span><span class="glossary-arrow">→</span><span class="glossary-new">Karachi, Sindh, <strong>Pakistan</strong></span></div>
+</div>
+</section>
+
+<!-- ═══════════════════ PART II ═══════════════════ -->
+<div class="part-banner">
+  <div class="part-num">Part II</div>
+  <div class="part-title">Foundations</div>
+</div>
+
+<section class="book-section" id="author-note">
+<h2 class="section-heading">Prefatory Note by the Author</h2>
+<div class="para-row"><span class="page-ref">p.xxi</span><p class="para-text drop-cap">In the name of God, the merciful, the compassionate. All the intellectuals of the world agree that wisdom is the advisor and guide of man. It guides a man towards goodness and prevents him from evil. It is wisdom that distinguishes man from other animals and makes him the best of creations. The almighty exhorts mankind to use wisdom and think over problems. Even a terse hint is full of details for a wise man. Wisdom without knowledge is useless, because knowledge is the light of wisdom. The almighty says, <em>"You are given but very little knowledge"</em> (17:85). Hence it is sheer ignorance to consider our limited knowledge superior to divine laws.</p></div>
+<div class="para-row"><span class="page-ref">p.xxii</span><p class="para-text">Thus what is approved in the book of nature and divine wisdom and affirmed by the Holy Prophet's sayings does not become non-existent if we fail to comprehend it. The Holy Prophet declared: <em>"I am the city of knowledge and Ali is its gate."</em> Thus the knowledge of a divine leader is God-given and not acquired through study. His knowledge is unlimited and all-embracing.</p></div>
+<div class="para-row"><span class="page-ref">p.xxiii</span><p class="para-text">All Muslims believe in the advent of Mahdi, though there are a few differences. Shia Imamites believe that Imam Mahdi is alive and in occultation, as are Prophet Jesus, Ilyas, Khizr etc. Sunnis believe that he is yet to be born and will manifest himself at the age of forty. To deny the existence of Mahdi is a proof of Kufr. The greatest proof of the existence of Mahdi is the very pretension of pseudo-Mahdis — copy is made from the original; if there is no original, there can be no copy.</p></div>
+<div class="para-row"><span class="page-ref">p.xxiv</span><p class="para-text">Eleven years ago I presented my book <em>The Portents of Resurrection</em> and thereafter <em>The Recognition of Imam</em>. The portents mentioned in those books have been almost fulfilled. With changing circumstances I received requests for reprints from every nook and corner, and I decided to present a new book comprising all the essential information plus other portents not included therein. Imam Mahdi won't manifest himself until there take place violent upheavals and changes beyond imagination. For these reasons I name this book <em>Qayamat-e-Sughra</em>, a predecessor to Qayamat itself.</p></div>
+<p class="attribution">Sayyed Mohammed Abbas Zaidi</p>
+</section>
+
+<div class="ornament-line"><span>✦ ✦ ✦</span></div>
+
+<section class="book-section" id="necessity">
+<h2 class="section-heading">Necessity of an Imam</h2>
+<div class="para-row"><span class="page-ref">p.1</span><p class="para-text drop-cap">The existence of the Devil (Iblis) is accepted by all the Muslims, and nearly all other religions. Referring to this unholy soul, the Qur'an warns man that Satan is the sworn enemy of mankind. He wants to misguide total humanity save those who are sincere servants of God. As he is a misguiding soul, there must remain in this world a guiding soul to offset his evil influence. Man is a creature weak in constitution — hence the presence of a misguiding soul and absence of a guiding soul makes his position critical. God, therefore, never leaves the world without a guide. In Qur'an, He says: <em>"O Prophet (S.A.), you are giver of good tidings and a warner and for every community there is a guide."</em> Thus the system of guidance has always been there and will remain forever.</p></div>
+<div class="para-row"><span class="page-ref">p.2</span><p class="para-text">An Imam is divinely guided and free from any type of sin. Every prophet and Imam is a guide — thus Hadi — and as he is guided by God, he is Mahdi. The final ray of the divine light of guidance is our twelfth Imam. Though he is unseen to our eyes, he sheds <em>"The Light On the Path"</em> while Satan, who is also unseen, continues to misguide people from the Right Path.</p></div>
+<div class="para-row"><span class="page-ref"></span><p class="para-text">The Holy Prophet had said: <em>"There will be twelve chiefs after me, all from Banu Hashim."</em> History is witness that many chiefs came from the Omayyads, Abbasides etc., but none could fulfil the condition of number. Eleven Imams have passed away and as long as there remains the Qur'an in this world, our twelfth holy Imam will also remain.</p></div>
+
+<h3 class="subsection-heading">Imam Mahdi mentioned in books of other religions</h3>
+<div class="para-row"><span class="page-ref"></span><p class="para-text">Study of various books convinces us that the world is awaiting a superman to save itself from strifes. World religions are unanimous in this regard. Only the names by which the Awaited One is remembered differ. The Abrahamic scrolls name him Master, Psalms name him "Self-Subsistent," Torah names him Augil, the Evangel names him Mohamez, Zoroastrian books name him Khushro, while some heavenly scrolls name him "Word of Truth." Sufis know him as Qutab and Ghaus, Bedouin Arabs remember him as Abu Saleh. The variety of names does not make any difference in the personality of the Awaited One.</p></div>
+<div class="para-row"><span class="page-ref">p.3</span><p class="para-text"><strong>Birth:</strong> All the Shias and most of the Sunni erudites agree that he is the son of eleventh Shia Imam Hasan Askari (A.S.). He was born on 15th Shaban 255 A.H. on Friday at the time of dawn. <strong>Physique:</strong> His colour will be pinkish, thorax and thighs broad, shoulder bones big and muscular. On his back are two freckles — one skin-coloured, another resembling the Holy Prophet's. His secret name is Ahmed; his open name is M.H.M.D. He has round head, beautiful long hair reaching to his shoulders, bright face, broad forehead, thick black beard, slender nose, big bright eyes, and palms pink and fleshy. His physique and behaviour will resemble that of the Holy Prophet.</p></div>
+</section>
+
+<div class="ornament-line"><span>✦ ✦ ✦</span></div>
+
+<section class="book-section" id="occultation">
+<h2 class="section-heading">Occultation</h2>
+<div class="para-row"><span class="page-ref">p.3</span><p class="para-text drop-cap">On 8th Rabi-ul-Awwal 260 A.H. Imam Hasan Askari left this earthly abode. On 9th Rabi-ul-Awwal, Imam Mahdi became a divine leader in apparent manner. From this day his lesser occultation began. It lasted for nearly seventy years and during that interim period the Imam was represented by four agents: (1) Othman bin Saeed Omari, (2) Mohammad bin Othman, (3) Shaikh Hussain Ibn Rawh, (4) Shaikh Ali bin Mohammed Samri.</p></div>
+<div class="para-row"><span class="page-ref">p.4</span><p class="para-text">Before the end of Shaikh Ali's term he received a letter from Imam: <em>"O Ali Samari, may God condole your brethren in religion in the grief of your demise. Finish the pending works of representation because you will die six days after receipt of this letter. Now none will replace you. I am ordered by the Almighty to go into major occultation. None will see me and I will remain hidden for a very long time. During my occultation, people will turn hard headed, troubles and oppression will increase. Many false claimants will also come into existence. Beware! Anybody who claims to see me before Sufyani's revolt and the great sound from the sky is a false claimant. 'Laa Haul Wa La Quwwat Illa Billah.'"</em></p></div>
+<div class="para-row"><span class="page-ref"></span><p class="para-text">The major occultation began in 329 A.H. and it still continues.</p></div>
+</section>
+
+<div class="ornament-line"><span>✦ ✦ ✦</span></div>
+
+<section class="book-section" id="ponder">
+<h2 class="section-heading">Points to Ponder</h2>
+<div class="para-row"><span class="page-ref">p.5</span><p class="para-text drop-cap">During the last few years the world has witnessed major changes. Morality has gone to its all-time low. Socio-political crimes are on the increase. A few minutes given to information media shows us that the governments themselves are supporting crimes. Even the sense of guilt has vanished. In such a critical time, it is our duty as Muslims to remember the sayings of our divine leaders, who predicted the events of present days some thirteen centuries ago.</p></div>
+<div class="para-row"><span class="page-ref"></span><p class="para-text">The noble divine leaders wanted to purify the characters of Muslims but the Muslims themselves deviated from the ancient teachings. The results are eye-opening. A handful of Jews defeated the huge armies of Muslims and snatched <span class="place">Jerusalem<span class="tip">Jerusalem · Israel/Palestine (Holy City)</span></span> from them. The occupation of the Holy city is a dagger in the hearts of Muslims but they can't do anything to regain it. Insha Allah, Jerusalem will be conquered by the Muslims because it is predicted that Imam Mahdi will offer prayers in that city and live there.</p></div>
+<div class="para-row"><span class="page-ref">p.6</span><p class="para-text">In <span class="place">Qadiyyan<span class="tip">Qadian · Punjab, India</span></span>, Mirza Gulam Ahmed produced his tall claims. In Iran, Baha'ullah and Bab etc. propagated their fascinating theories and lured many. Such false claimants would come and go, but they ruin the faiths of many. Acquiring true knowledge about the institution of Imamate thus becomes a very important obligation upon us.</p></div>
+</section>
+
+<div class="ornament-line"><span>✦ ✦ ✦</span></div>
+
+<section class="book-section" id="qayamat">
+<h2 class="section-heading">Qayamat — The Final Day of Judgement</h2>
+<div class="para-row"><span class="page-ref">p.6</span><p class="para-text drop-cap">The fifth principle of the faith in Islam is the belief in Qayamat. It is a fixed day to come, the knowledge of which is open only to God and his chosen servants. The Holy Prophet is reported to have said: <em>"Ten Signs are necessary to appear before the Day of Judgement: (1) The revolt of Sufyani, (2) The revolt of Dajjal, (3) Fire and Smoke, (4) Dabbatul Arz, (5) The advent of Qaem, (6) Sunrise from the West, (7) Coming of Eesa from the sky, (8) Landslide in the east, (9) Landslide in Arabia, (10) Fire in the depths of <span class="place">Aden<span class="tip">Aden · Yemen (port city)</span></span> which will drive people to the Plane of Gathering."</em></p></div>
+<div class="para-row"><span class="page-ref">p.7</span><p class="para-text">Fire and smoke might be a reference to bombs which when exploded produce fire and smoke. Fire in the depths of Aden may be a reference to fire in petrol storage tanks or in oil wells of Arabia. The deep soil of Arabia is full of highly inflammable oil.</p></div>
+</section>
+
+<div class="ornament-line"><span>✦ ✦ ✦</span></div>
+
+<section class="book-section" id="augury-types">
+<h2 class="section-heading">The Auguries about the Advent of Imam Mahdi</h2>
+<div class="para-row"><span class="page-ref">p.7</span><p class="para-text drop-cap">I have classified the auguries as under. <strong>Definite Auguries</strong> will certainly appear before the advent of Imam Mahdi and there is no recourse. <strong>Conditional Auguries</strong> are related to the actions of men — they may or may not appear; repentance and seeking forgiveness may ward off evil omens. <strong>Common Auguries</strong> pertain to social, economic, cultural and moral changes. <strong>Special Auguries</strong> pertain to certain communities, particular places, and cities. <strong>Past Auguries</strong> are those which have occurred before the writing of this book. <strong>Future Auguries</strong> are those which are yet to take place.</p></div>
+<div class="para-row"><span class="page-ref">p.8</span><p class="para-text">The givers of the forecasts lived in Arabia and knew the capacity of their countrymen, hence most of the forecasts are limited to the area of the Middle East. Another point worth remembering is that geophysical as well as geo-political changes have taken place since that time. Names of cities have changed. Cities have been destroyed. New cities have come into being. Earnest readers should consult Webster's Geography or any other good book about old-time geography.</p></div>
+</section>
+
+<div class="ornament-line"><span>✦ ✦ ✦</span></div>
+
+<section class="book-section" id="common-auguries">
+<h2 class="section-heading">Common Auguries — The Prophet's Address</h2>
+<div class="para-row"><span class="page-ref">p.9</span><p class="para-text drop-cap">Jabir Ibn Abdullah Ansari is reported to have said: <em>"I performed Hajjatul Wida with the Holy Prophet. After finishing the rituals he said: 'People, today I bid final farewell to the Holy Kaaba.' Then coming to the gate of Kaaba he told people to gather together and began: 'People, may God be merciful to you. You are like the leaves of a thornless tree. This condition would persist for forty years. Then for two years thorns and leaves will live together. After that no leaf would be visible, there will remain only thorns. Listen. I am going to tell you of things to come after me.'"</em></p></div>
+<div class="para-row"><span class="page-ref"></span><p class="para-text">The Prophet began to weep and the whole crowd also wept with him. After a while the Prophet began: <em>"People, a time will come when: (1) The kings and rulers will be tyrannical. (2) Wealthy persons will be miserly. (3) Erudites will be greedy for worldly possessions. (4) Beggars will be imposters. (5) Children will lack modesty. (6) Old persons will be wicked."</em></p></div>
+<div class="para-row"><span class="page-ref">p.10</span><p class="para-text">The Prophet continued: <em>"There will come a time when (1) The belly will be treated as God — people will do anything to fill their bellies without fear of God. (2) Women will be the centre of men's thoughts — men will be subservient to and dictated by women. (3) Money will be their religion — wealth and possession will have precedence over religion. (4) Qur'an will be taught as a fashion only. (5) Mosques will be constructed but hearts will lack faith. (6) The scholars will be from amongst the worst people — showing themselves as religious-minded, whereas in fact out-and-out materialists."</em></p></div>
+<div class="para-row"><span class="page-ref">p.11</span><p class="para-text">The Prophet then warned: <em>"Remember, when such a time comes, God will entangle people in four afflictions: (1) Oppression of the ruling authority. (2) Famine and high prices of daily requirements. (3) Persecutions by the administrative officials. (4) Idol worship."</em> The companions expressed surprise: <em>"O Master, what! A Muslim and idol worship?"</em> <em>"Yes,"</em> replied the Prophet. <em>"For them the Dirham (money) will symbolize an idol."</em></p></div>
+</section>
+
+<div class="ornament-line"><span>✦ ✦ ✦</span></div>
+
+<section class="book-section" id="imam-sadiq-pred">
+<h2 class="section-heading">Predictions by Imam Jafar Sadiq (A.S.)</h2>
+<div class="para-row"><span class="page-ref">p.12</span><p class="para-text drop-cap">The following is the extract of a talk with Imam Jafar Sadiq (A.S.) in which he narrates the portents of the final era of this world. It is taken from Darul Islam, Beharul Anwar and Rauzatul Kafi. The Ravis are Allama Naraqi and Shaikh Kolaini. The source is Himran.</p></div>
+<div class="para-row"><span class="page-ref"></span><p class="para-text">Imam said: <em>"Right will be frustrated and rightful people won't be found anywhere. Oppression and tyranny will rule over the cities. Practical following of Qur'an will be considered old-fashioned. People of injustice will score a victory over people of justice. Mischief will appear from every direction. Shamelessness and misdeeds will prevail. Homosexuality will be common. Momins will not be respected but mean persons will be honoured. Mercy will be an absent virtue. Women will marry women. Kaaba will be useless on account of difficulties to pilgrims..."</em></p></div>
+<div class="para-row"><span class="page-ref">p.14</span><p class="para-text"><em>"People will treat the offering of prayers lightly and ignore it. Coffin cloths will be stolen from graves and resold. Killing will be so prevalent that even animals would begin to murder each other. Bad deeds will be prevalent even in <span class="place">Mecca<span class="tip">Mecca · Makkah Province, Saudi Arabia</span></span> and <span class="place">Medina<span class="tip">Medina · Madinah Province, Saudi Arabia</span></span>. Year by year conditions will deteriorate. Natural calamities like earthquakes and downpours will be there but none will fear. A day passed without sin will be considered a day wasted. Payments will be accepted for Calls to Prayer (Azan) and for offering prayer. Half-mad and semi-conscious people will lead congregational prayers."</em></p></div>
+</section>
+
+<div class="ornament-line"><span>✦ ✦ ✦</span></div>
+
+<section class="book-section" id="special-portents">
+<h2 class="section-heading">Special Portents &amp; Destruction of Countries</h2>
+<div class="para-row"><span class="page-ref">p.15</span><p class="para-text drop-cap">The Holy Prophet has said: (1) Before the coming of Resurrection, three things will be common: Piles, Accidental deaths, and Leucoderma. (2) One of the conditions of the coming of the Day of Judgement is fire. It will prevail from East to West. (3) Women will outnumber men in ratio of fifty to one.</p></div>
+
+<h3 class="subsection-heading">Destruction of Different Countries</h3>
+<div class="para-row"><span class="page-ref">p.15</span><p class="para-text">A great Sunni erudite Mohiuddin ibn Arabi has written, in a tradition ending with Hozaif, that the Holy Prophet said: <em>"<span class="place">Egypt<span class="tip">Egypt · Northeast Africa</span></span> won't be destroyed until <span class="place">Basra<span class="tip">Basra · Basra Governorate, southern Iraq</span></span> is destroyed. Basra will be destroyed due to Iraq, and Egypt will be devastated due to the Nile. <span class="place">Mecca<span class="tip">Mecca · Makkah Province, Saudi Arabia</span></span> will be ravaged by <span class="place">Ethiopia<span class="tip">Ethiopia · East Africa (called Habasha in classical texts)</span></span>. <span class="place">Medina<span class="tip">Medina · Madinah Province, Saudi Arabia</span></span> will be shattered by floods. Small pox will ruin <span class="place">Yemen<span class="tip">Yemen · Arabian Peninsula</span></span>. <span class="place">Eela<span class="tip">Eilat · southernmost city in Israel, on Red Sea coast</span></span> will be annihilated in siege. Persia will be ravaged by Saaleek from <span class="place">Dailam<span class="tip">Daylam · Gilan Province, northwestern Iran</span></span> and Dailam will be sacked by Armenians and they in turn by Turks. <span class="place">Sind<span class="tip">Sindh · Province of Pakistan</span></span> will be sacked by India, and India will be toppled by China. <span class="place">Basra<span class="tip">Basra · Basra Governorate, Iraq</span></span> and <span class="place">Balkh<span class="tip">Balkh · Balkh Province, northern Afghanistan</span></span> will be drowned."</em></p></div>
+
+<h3 class="subsection-heading">Destruction of Some Cities — narrated by Ali (A.S.)</h3>
+<div class="para-row"><span class="page-ref">p.17</span><p class="para-text"><em>"<span class="place">Samarqand<span class="tip">Samarkand · Samarkand Region, Uzbekistan</span></span>, <span class="place">Khwarizm<span class="tip">Khwarezm · Khwarezm Region, Uzbekistan</span></span>, <span class="place">Isfahan<span class="tip">Isfahan · Isfahan Province, central Iran</span></span> and <span class="place">Koofa<span class="tip">Kufa · Najaf Governorate, Iraq</span></span> will be sacked by Turks (here meaning Russians). <span class="place">Hamadan<span class="tip">Hamadan · Hamadan Province, western Iran</span></span> and <span class="place">Ray<span class="tip">Rey · Tehran Province, Iran — now a district of Tehran</span></span> will be destroyed by the people of <span class="place">Qazvin<span class="tip">Qazvin · Qazvin Province, northwestern Iran</span></span>. <span class="place">Tarsus<span class="tip">Tarsus · Mersin Province, southern Turkey</span></span>, Medina and the area of the Persian Gulf will be ravaged by famines and hunger. <span class="place">Basra<span class="tip">Basra · Basra Governorate, Iraq</span></span> and <span class="place">Balkh<span class="tip">Balkh · Balkh Province, northern Afghanistan</span></span> will be drowned. <span class="place">Badakhshan<span class="tip">Badakhshan · northeastern Afghanistan and Tajikistan</span></span> will be trampled by armies. <span class="place">Sistan<span class="tip">Sistan · Sistan and Baluchestan Province, Iran / Nimroz Province, Afghanistan</span></span> will be ruined by gases. Locusts will lay waste <span class="place">Marv<span class="tip">Mary · Mary Region, Turkmenistan</span></span>. Serpents will kill creatures in <span class="place">Herat<span class="tip">Herat · Herat Province, western Afghanistan</span></span>. <span class="place">Nishapur<span class="tip">Nishapur · Razavi Khorasan Province, northeastern Iran</span></span> will be ravaged. <span class="place">Azerbaijan<span class="tip">Azerbaijan · northwestern Iran + Republic of Azerbaijan</span></span> will be sacked by armies and thunderbolts. The Nile will burst. <span class="place">Bukhara<span class="tip">Bukhara · Bukhara Region, Uzbekistan</span></span> will submerge in water. There will be famines and <span class="place">Baghdad<span class="tip">Baghdad · capital of Iraq</span></span> also will be destroyed."</em></p></div>
+
+<div class="para-row"><span class="page-ref">p.17</span><p class="para-text">Thereafter Ali (A.S.) said: <em>"Before the advent of Qaem a Sayed Hasani will station himself in <span class="place">Khorasan<span class="tip">Khorasan · northeastern Iran + parts of Turkmenistan and Afghanistan</span></span>. He will conquer <span class="place">Kirman<span class="tip">Kerman · Kerman Province, southeastern Iran</span></span> and <span class="place">Multan<span class="tip">Multan · Punjab Province, Pakistan</span></span>. Thereafter he will proceed towards Basra's hinterland. People of <span class="place">Astarabad<span class="tip">Gorgan · Golestan Province, northern Iran — ancient name: Astarabad</span></span> and <span class="place">Qazvin<span class="tip">Qazvin · Qazvin Province, northwestern Iran</span></span> will obey him. Then the flags of Turks will appear. Fierce battles will take place. Then Basra will be devastated and Arab headquarters will be in Egypt."</em></p></div>
+
+<div class="para-row"><span class="page-ref">p.18</span><p class="para-text">Ali said: <em>"War will break out in Syria and it will be bombed. As a result one hundred thousand people will be killed. There is a village named <span class="place">Harsa<span class="tip">Kharsa / Harsa · near Damascus, Syria (ancient toponym)</span></span> which will sink into the ground. It is a portent of the revolt of Sufyani who will come from the dry valley of <span class="place">Palestine<span class="tip">Palestine · historical region; today comprising Israel, West Bank and Gaza</span></span>."</em></p></div>
+
+<h3 class="subsection-heading">Siege of Kufa</h3>
+<div class="para-row"><span class="page-ref">p.18</span><p class="para-text">Ali (A.S.) said: <em>"First is the siege of <span class="place">Koofa<span class="tip">Kufa · Najaf Governorate, Iraq</span></span>. Ditches will be dug around the city due to fear of enemies. Flags will either be torn or burnt in the streets of Koofa. The great mosque of Koofa will lay useless for forty days as there will be none to offer prayers. Christians will gain control over the area. Three flags will be hoisted near the mosque simultaneously. Bloodshed will take place in which the killer and the killed both will go to Hell. A pious man will be murdered in the outskirts of the mosque of Koofa, along with seventy persons. Between Rukn and Maqam another pious man will be murdered (in <span class="place">Mecca<span class="tip">Mecca · Makkah Province, Saudi Arabia</span></span>)."</em></p></div>
+
+<h3 class="subsection-heading">Two Thirds of World Population will be Destroyed</h3>
+<div class="para-row"><span class="page-ref">p.19</span><p class="para-text">Ali (A.S.) said: <em>"Mahdi won't be manifest until and unless one third of world population is murdered and then one third will die a natural death. Thereafter only one third will remain."</em> Imam Husain (A.S.) is reported to have said: <em>"Two factions will fight in <span class="place">Iran<span class="tip">Iran · Islamic Republic of Iran</span></span> and thousands will be killed."</em></p></div>
+
+<h3 class="subsection-heading">Definite Portents</h3>
+<div class="para-row"><span class="page-ref">p.20</span><p class="para-text"><strong>The Revolt of Sufyani:</strong> A mean, ugly, blister-faced, blue-eyed Omayyad man named Othman son of Utba will lead a revolt near <span class="place">Palestine<span class="tip">Palestine · historical region; today comprising Israel, West Bank and Gaza</span></span>. His revolt will take place after a great World War. His soldiers will be extremely cruel and blood-thirsty. About seventy thousand Jews will join him. He will spread a reign of terror over nearly the whole of Arabia. <span class="place">Medina<span class="tip">Medina · Madinah Province, Saudi Arabia</span></span>, Syria and Iraq will be trampled. After that he will decide for Mecca. At a place called Beda, in the deserts of Medina, the land will tear itself asunder and his whole army will be devoured.</p></div>
+<div class="para-row"><span class="page-ref">p.21</span><p class="para-text"><strong>Voice from the Sky:</strong> On 23rd of Ramzan, Thursday night, before dawn, a very loud voice will be heard. It will reach every nook and corner of the world and be understood by everybody. It is the voice of Hazrat Jibril (A.S.) announcing the glad tidings of the advent of Imam Mahdi (A.S.) After that, in the afternoon a similar voice will be heard. This will be the voice of Iblis. The apparent similarity will be enough to misguide many persons. In this era of electronic mass communication we have nothing to doubt about the voice reaching everywhere.</p></div>
+<div class="para-row"><span class="page-ref">p.22</span><p class="para-text"><strong>Dajjal:</strong> Dajjal means a great perfidious mischief-monger. The Dajjal mentioned here is an individual named Sayyad. He is a great magician. First he will claim to be a prophet and then god. He will come when the Middle East will be strife-torn by famines continuing for three consecutive years. In the third year signs of green grass would be extremely rare. This one-eyed monster will be twenty metres tall. His right eye is useless and would appear as a lump of red meat. Being aided by seventy thousand armed Jews he will spread a reign of terror. At that time, the only safe place in the world will be <span class="place">Jerusalem<span class="tip">Jerusalem · Holy City, Israel/Palestine</span></span>, because this is the place where Hazrat Eesa (A.S.) will descend. A great battle will then take place and Dajjal will be killed by Prophet Jesus.</p></div>
+<div class="para-row"><span class="page-ref">p.24</span><p class="para-text">Ali (A.S.) replied: <em>"He will emerge from a village called <span class="place">Isbahan<span class="tip">Isfahan · Isfahan Province, central Iran</span></span> from an area called Judea. He will swim across oceans. Sun will be with him. A cloud of smoke will be in front of him and a white mountain behind him. Famine-stricken people will think the white mountain is food. He will be killed at a place called Aqba in <span class="place">Syria<span class="tip">Syria · Syrian Arab Republic</span></span>. He will be killed on Friday afternoon by a man in whose lead Prophet Jesus will offer prayer."</em></p></div>
+</section>
+
+<div class="ornament-line"><span>✦ ✦ ✦</span></div>
+
+<section class="book-section" id="glossary-2">
+<h2 class="section-heading">Geographical Glossary — Part II</h2>
+<p class="epigraph">Historical place names in this section and their modern equivalents</p>
+<div class="glossary-grid">
+  <div class="glossary-item"><span class="glossary-old">Koofa / Kufa</span><span class="glossary-arrow">→</span><span class="glossary-new">Kufa, Najaf Governorate, <strong>Iraq</strong></span></div>
+  <div class="glossary-item"><span class="glossary-old">Khorasan</span><span class="glossary-arrow">→</span><span class="glossary-new">Northeastern <strong>Iran</strong> + parts of Turkmenistan &amp; Afghanistan</span></div>
+  <div class="glossary-item"><span class="glossary-old">Basra</span><span class="glossary-arrow">→</span><span class="glossary-new">Basra, Basra Governorate, <strong>Iraq</strong></span></div>
+  <div class="glossary-item"><span class="glossary-old">Samarqand</span><span class="glossary-arrow">→</span><span class="glossary-new">Samarkand, <strong>Uzbekistan</strong></span></div>
+  <div class="glossary-item"><span class="glossary-old">Khwarizm</span><span class="glossary-arrow">→</span><span class="glossary-new">Khwarezm Region, <strong>Uzbekistan</strong></span></div>
+  <div class="glossary-item"><span class="glossary-old">Isfahan / Ispehan / Isbahan</span><span class="glossary-arrow">→</span><span class="glossary-new">Isfahan, Isfahan Province, <strong>Iran</strong></span></div>
+  <div class="glossary-item"><span class="glossary-old">Hamadan</span><span class="glossary-arrow">→</span><span class="glossary-new">Hamadan, Hamadan Province, <strong>Iran</strong></span></div>
+  <div class="glossary-item"><span class="glossary-old">Ray</span><span class="glossary-arrow">→</span><span class="glossary-new">Rey district, Tehran Province, <strong>Iran</strong></span></div>
+  <div class="glossary-item"><span class="glossary-old">Qazvin / Kazveen</span><span class="glossary-arrow">→</span><span class="glossary-new">Qazvin, Qazvin Province, <strong>Iran</strong></span></div>
+  <div class="glossary-item"><span class="glossary-old">Balkh</span><span class="glossary-arrow">→</span><span class="glossary-new">Balkh Province, northern <strong>Afghanistan</strong></span></div>
+  <div class="glossary-item"><span class="glossary-old">Badakhshan</span><span class="glossary-arrow">→</span><span class="glossary-new">Badakhshan, northeastern <strong>Afghanistan</strong> / <strong>Tajikistan</strong></span></div>
+  <div class="glossary-item"><span class="glossary-old">Sistan / Sijistan</span><span class="glossary-arrow">→</span><span class="glossary-new">Sistan-Baluchestan Province, <strong>Iran</strong></span></div>
+  <div class="glossary-item"><span class="glossary-old">Marv</span><span class="glossary-arrow">→</span><span class="glossary-new">Mary, Mary Region, <strong>Turkmenistan</strong></span></div>
+  <div class="glossary-item"><span class="glossary-old">Herat / Hirat</span><span class="glossary-arrow">→</span><span class="glossary-new">Herat, Herat Province, <strong>Afghanistan</strong></span></div>
+  <div class="glossary-item"><span class="glossary-old">Nishapur / Neshapore</span><span class="glossary-arrow">→</span><span class="glossary-new">Nishapur, Razavi Khorasan, <strong>Iran</strong></span></div>
+  <div class="glossary-item"><span class="glossary-old">Bukhara / Bokhara</span><span class="glossary-arrow">→</span><span class="glossary-new">Bukhara, Bukhara Region, <strong>Uzbekistan</strong></span></div>
+  <div class="glossary-item"><span class="glossary-old">Astarabad</span><span class="glossary-arrow">→</span><span class="glossary-new">Gorgan, Golestan Province, <strong>Iran</strong></span></div>
+  <div class="glossary-item"><span class="glossary-old">Dailam</span><span class="glossary-arrow">→</span><span class="glossary-new">Daylam, Gilan Province, northwestern <strong>Iran</strong></span></div>
+  <div class="glossary-item"><span class="glossary-old">Eela</span><span class="glossary-arrow">→</span><span class="glossary-new">Eilat, southernmost <strong>Israel</strong>, on Red Sea coast</span></div>
+  <div class="glossary-item"><span class="glossary-old">Tarsus / Tabrosa</span><span class="glossary-arrow">→</span><span class="glossary-new">Tarsus, Mersin Province, <strong>Turkey</strong></span></div>
+  <div class="glossary-item"><span class="glossary-old">Kirman</span><span class="glossary-arrow">→</span><span class="glossary-new">Kerman, Kerman Province, <strong>Iran</strong></span></div>
+  <div class="glossary-item"><span class="glossary-old">Multan</span><span class="glossary-arrow">→</span><span class="glossary-new">Multan, Punjab Province, <strong>Pakistan</strong></span></div>
+  <div class="glossary-item"><span class="glossary-old">Aden</span><span class="glossary-arrow">→</span><span class="glossary-new">Aden, Aden Governorate, <strong>Yemen</strong></span></div>
+  <div class="glossary-item"><span class="glossary-old">Qadiyyan</span><span class="glossary-arrow">→</span><span class="glossary-new">Qadian, Gurdaspur, Punjab, <strong>India</strong></span></div>
+  <div class="glossary-item"><span class="glossary-old">Azerbaijan</span><span class="glossary-arrow">→</span><span class="glossary-new">Northwestern <strong>Iran</strong> + Republic of <strong>Azerbaijan</strong></span></div>
+  <div class="glossary-item"><span class="glossary-old">Harsa / Kharsa</span><span class="glossary-arrow">→</span><span class="glossary-new">Near Damascus, <strong>Syria</strong> (ancient toponym)</span></div>
+</div>
+</section>
+
+<!-- ═══════════════════ PART III ═══════════════════ -->
+<div class="part-banner">
+  <div class="part-num">Part III</div>
+  <div class="part-title">The Signs</div>
+</div>
+
+<section class="book-section" id="essa">
+<h2 class="section-heading">Arrival of Hazrat Essa from the Sky</h2>
+<div class="para-row"><span class="page-ref">p.26</span><p class="para-text drop-cap">It is the belief of every Muslim that Prophet Jesus was neither crucified nor killed but taken away to high heavens, alive. At an appointed hour he will come down from the sky to <span class="place">Syria<span class="tip">Syria · Syrian Arab Republic</span></span>. Imam Mahdi (A.S.) will be there in the world. Prophet Jesus will join Imam Mahdi. At the time of prayer Imam Mahdi will lead congregational prayer and Prophet Jesus will pray behind him. They will then wage a war against Dajjal and kill him. After that all the Jews and Christians will become Muslims.</p></div>
+</section>
+
+<div class="ornament-line"><span>✦ ✦ ✦</span></div>
+
+<section class="book-section" id="baghdad-dest">
+<h2 class="section-heading">Destruction of Baghdad</h2>
+<div class="para-row"><span class="page-ref">p.27</span><p class="para-text drop-cap">There are predictions about the destruction of some cities but the destruction of <span class="place">Baghdad<span class="tip">Baghdad · capital of Iraq</span></span> is emphatically mentioned, and as such erudites consider it as a sure augury. Imam Jafar Sadiq (A.S.) had delivered a lengthy speech in this regard. Ali (A.S.) has also referred to it in his addresses. The gist: <em>"There will be founded a city named Baghdad. It will be so full of sins that divine punishments will be concentrated there. Unprecedented calamities like epidemics, famines, flood in river <span class="place">Tigris<span class="tip">Tigris · major river flowing through Turkey, Syria and Iraq</span></span>, torrential rains, cyclones etc. will occur. Destruction of the city will begin when there will gather three types of flags in the city — yellow flags, flags from Western areas, and flags from surrounding areas — perhaps a sign of civil war."</em></p></div>
+</section>
+
+<div class="ornament-line"><span>✦ ✦ ✦</span></div>
+
+<section class="book-section" id="hasani">
+<h2 class="section-heading">Revolt Led by a Hasani Sayyed</h2>
+<div class="para-row"><span class="page-ref">p.27</span><p class="para-text drop-cap">He will be a handsome youth from the progeny of Imam Hasan (A.S.). He will emerge from <span class="place">Dailam<span class="tip">Daylam · Gilan Province, northwestern Iran</span></span> (area around <span class="place">Qazvin<span class="tip">Qazvin · Qazvin Province, northwestern Iran</span></span>). He will make no claim of divine leadership but, seeing the plight of the society, will call people to shun evil and reform themselves. People of <span class="place">Taleqan<span class="tip">Takht-e-Suleiman area · Alborz Province, northwestern Iran</span></span> will be first to answer his call. The Hasani leader will come to <span class="place">Multan<span class="tip">Multan · Punjab Province, Pakistan</span></span> via <span class="place">Kirman<span class="tip">Kerman · Kerman Province, southeastern Iran</span></span>. Then he will go up to <span class="place">Basra<span class="tip">Basra · Basra Governorate, southern Iraq</span></span>. All these areas will accept his tutelage. He will then start for <span class="place">Koofa<span class="tip">Kufa · Najaf Governorate, Iraq</span></span> and there news will reach him that the advent of Imam Mahdi has occurred and the Imam has started for Iraq via Mecca and Medina.</p></div>
+<div class="para-row"><span class="page-ref">p.28</span><p class="para-text">The Hasani Sayed will meet Imam Mahdi to seek miracles of divine leadership. Upon verification he will take oath of allegiance to Imam along with his huge army. Four thousand Zaidi soldiers of Yemen belonging to the army of Hasani Sayyed will refuse — claiming Zaid the Martyr as their Imam. Consequently all of them will be annihilated.</p></div>
+</section>
+
+<div class="ornament-line"><span>✦ ✦ ✦</span></div>
+
+<section class="book-section" id="future-portents">
+<h2 class="section-heading">Future Portents</h2>
+<div class="para-row"><span class="page-ref">p.28</span><p class="para-text drop-cap">These thought-provoking elements are worth remembering.</p></div>
+<ul class="portent-list">
+  <li><strong>1. Revolt of Shoaib Ibn Saleh:</strong> He is a good man. He will lead a revolt in <span class="place">Samarqand<span class="tip">Samarkand · Samarkand Region, Uzbekistan</span></span>. Ahadith indicate he will be the commander of either the army of Hasani Sayyed or that of Imam Mahdi.</li>
+  <li><strong>2. Revolt of Auf:</strong> This good man will invite people to his views after a great war. He will lead revolutions from <span class="place">Kuwait<span class="tip">Kuwait City · Kuwait</span></span> to Syria and there he will be killed.</li>
+  <li><strong>3. Revolt of Yamani:</strong> An unknown person will emerge in <span class="place">Yemen<span class="tip">Yemen · Arabian Peninsula</span></span> only to create strife and turmoil.</li>
+  <li><strong>4. Maghrebi's tutelage over Egypt:</strong> In Arabic, <span class="place">Algeria<span class="tip">Algeria · North Africa</span></span>, <span class="place">Tunisia<span class="tip">Tunisia · North Africa</span></span>, <span class="place">Morocco<span class="tip">Morocco · North Africa</span></span> and <span class="place">Libya<span class="tip">Libya · North Africa</span></span> are called Maghreb. A man from these areas will come to Egypt and control that area including Syria.</li>
+  <li><strong>5. Murder of a Pious Soul:</strong> Imam Jafar Sadiq (A.S.) has said: "Fifteen days before the advent of Imam Mahdi, a very pious man Mohammed Ibn Hasan Zakia will be killed near Kaaba between Rukn and Maqam."</li>
+  <li><strong>6.</strong> There will arise massive differences among the Abbasides themselves.</li>
+  <li><strong>7.</strong> A pious man known as Nafs-e-Zakiyya will be murdered along with seventy Sayyeds, at the back side of the Mosque of <span class="place">Koofa<span class="tip">Kufa · Najaf Governorate, Iraq</span></span>.</li>
+  <li><strong>10.</strong> There will be surprising snowfall over the Roman peninsula. Each hailstone would be the size of an egg.</li>
+  <li><strong>11.</strong> A wonderful comet: A star will rise from the east. Its light would be similar to that of the moon.</li>
+  <li><strong>16.</strong> Downfall will come to the emperor of Iran. His glory will fade and the empire will cease to exist. Form of government will change. <em>(In 1978/79 this prophecy took place.)</em></li>
+  <li><strong>17.</strong> The chief of the Egyptians will be killed. He will be a man of enormous influence and power.</li>
+  <li><strong>18.</strong> Devastation in Syria: The flags from the direction of Egypt will march to Syria, while from the direction of <span class="place">Khorasan<span class="tip">Khorasan · northeastern Iran + parts of Turkmenistan and Afghanistan</span></span> one flag will come. All three will claim suzerainty over Syria. They will then fight with each other, bringing ruin over Syrian territory.</li>
+  <li><strong>21.</strong> A new canal will be dug from the river <span class="place">Euphrates<span class="tip">Euphrates · major river flowing through Turkey, Syria and Iraq</span></span>. It will pass through Koofa, bringing it prosperity. <em>(The prophecy has taken place and been completed.)</em></li>
+  <li><strong>24.</strong> An honourable person from Banu Abbas will be burnt alive between <span class="place">Jaloola<span class="tip">Jalula · Diyala Governorate, Iraq</span></span> and <span class="place">Khanaqueen<span class="tip">Khanaqin · Diyala Governorate, Iraq</span></span>.</li>
+  <li><strong>26.</strong> Destruction of Baghdad: Severe earthquakes will occur in the city killing much of the population. Black cyclones will then occur at noon followed by a variety of horrors.</li>
+  <li><strong>27.</strong> <span class="place">Basra<span class="tip">Basra · Basra Governorate, southern Iraq</span></span> will submerge in water followed by tidal waves.</li>
+  <li><strong>30.</strong> Civil war in Iran: A severe tug of war will take place between two factions. About eighty thousand persons will be killed. <em>(Perhaps completed in 1978/79.)</em></li>
+  <li><strong>39.</strong> Hashemite Kingdom: Ali (A.S.) has predicted that the Hashemite kingdom will cease to exist. The last king will be a young boy, weak in will, inexperienced and a follower of others' advice. <em>(There is only one Hashemite kingdom in the world — Jordan.)</em></li>
+  <li><strong>41.</strong> Arrival of Turks in the Peninsula: In Ahadith, Turks means Russians and Jazira is Arabia. Thus the arrival of Russians in Arabia is a very important portent.</li>
+  <li><strong>42.</strong> Arrival of Englishmen in <span class="place">Palestine<span class="tip">Palestine · historical region; today comprising Israel, West Bank and Gaza</span></span>.</li>
+  <li><strong>44.</strong> Village <span class="place">Jabiya<span class="tip">Jabiya · near Damascus, southern Syria</span></span> near Damascus will sink into the earth.</li>
+  <li><strong>45.</strong> Lake Sawa will again be filled with water. This lake is situated near <span class="place">Qom<span class="tip">Qom · Qom Province, central Iran</span></span>. It became dry when the Holy Prophet was born.</li>
+  <li><strong>50.</strong> Arrival of Chinese in Arabia is a portent of great war ensuing.</li>
+  <li><strong>51.</strong> An upheaval will start from <span class="place">Azerbaijan<span class="tip">Azerbaijan · northwestern Iran + Republic of Azerbaijan</span></span> and <span class="place">Armenia<span class="tip">Armenia · South Caucasus, Republic of Armenia</span></span>. This turmoil will then reach Koofa via <span class="place">Wast<span class="tip">Wasit · Wasit Governorate, central Iraq</span></span> and a sanguine battle will take place around <span class="place">Najaf<span class="tip">Najaf · Najaf Governorate, Iraq — holy Shia city</span></span>. War will take place near <span class="place">Tehran<span class="tip">Tehran · capital of Iran</span></span> also.</li>
+</ul>
+</section>
+
+<div class="ornament-line"><span>✦ ✦ ✦</span></div>
+
+<section class="book-section" id="arabic-book">
+<h2 class="section-heading">Excerpts from the Arabic Book <em>Al-Malahim wal Fetan</em></h2>
+<div class="para-row"><span class="page-ref">p.34</span><p class="para-text drop-cap">The following auguries are taken from a book named <em>Al-Malahim wal Fetan</em> compiled by Ali ibn Moosa ibn Jafar ibn Mohamed ibn Taoos Al Hasni wal Husaini, first put into circulation in 604 A.H.</p></div>
+<div class="para-row"><span class="page-ref"></span><p class="para-text">(1) The Prophet (S.A.) said: <em>"Beware of the black flags! Their beginning is discord, middle misguidance and their end is blasphemy."</em> (2) <em>"Be collected when you see the black flags. A tall-statured, unreliable community will come. Their hearts are strong as iron. They will exhort people to righteousness, but they themselves would be devoid of it."</em> (3) <em>"Run for your safety when you see yellow flags in <span class="place">Egypt<span class="tip">Egypt · northeastern Africa</span></span>. When they reach <span class="place">Syria<span class="tip">Syria · Syrian Arab Republic</span></span>, you must act quickly."</em></p></div>
+<div class="para-row"><span class="page-ref">p.35</span><p class="para-text">(5) Hasan Basri is reported to have said: <em>"From the vicinity of <span class="place">Tehran<span class="tip">Tehran · capital of Iran</span></span>, a man named Shoaib ibn Saleh Tamimi will lead a revolt. His colour is wheatish, chest broad and beard tough. He will lead four thousand white-attired men with black flags. He will have the banner of Imam Mahdi. He will be invincible in battle."</em></p></div>
+<div class="para-row"><span class="page-ref">p.36</span><p class="para-text">(6) Mohamed the Hanafite is reported to have said: <em>"The black flags will first belong to Banu Abbas, and thereafter they will come from <span class="place">Khorasan<span class="tip">Khorasan · northeastern Iran + parts of Turkmenistan and Afghanistan</span></span>. The leader of that group will be Shoaib ibn Saleh Tamimi. They will defeat the hosts of Sufyani and then reach the city of <span class="place">Jerusalem<span class="tip">Jerusalem · Holy City, Israel/Palestine</span></span>. They will then hand over authority to Imam Mahdi. Three hundred Syrians will aid Shoaib ibn Salih. The interim period between the revolt of Shoaib ibn Salih and the advent of Imam Mahdi is seventy-two months."</em></p></div>
+<div class="para-row"><span class="page-ref">p.37</span><p class="para-text">(7) Makhool reports: <em>"The Turks will come twice. First they will come from the direction of <span class="place">Azerbaijan<span class="tip">Azerbaijan · northwestern Iran + Republic of Azerbaijan</span></span> and the next time their armies will pass via river <span class="place">Euphrates<span class="tip">Euphrates · major river through Turkey, Syria and Iraq</span></span>."</em> Note: The Turks coming from the direction of Azerbaijan are identified as Russians. (15) Abdullah ibn Omar reports: <em>"Banu Qantura (Chinese) will rout the people of <span class="place">Khorasan<span class="tip">Khorasan · northeastern Iran + parts of Turkmenistan and Afghanistan</span></span> and <span class="place">Sistan<span class="tip">Sistan · Sistan-Baluchestan Province, Iran / Nimroz Province, Afghanistan</span></span>. They will advance till they reach a certain place of date groves in Palestine. Thereafter they will issue a warning to the people of Basra to evacuate their lands."</em></p></div>
+</section>
+
+<div class="ornament-line"><span>✦ ✦ ✦</span></div>
+
+<section class="book-section" id="who-are-turks">
+<h2 class="section-heading">Who Are the Turks?</h2>
+<div class="para-row"><span class="page-ref">p.39</span><p class="para-text drop-cap">It is a fallacy to understand that only the inhabitants of modern Turkey are Turks. According to historian Farishta, the origin of Turks goes back to Prophet Noah whose son Yafis had a son named Turk. Wherever his progeny went they were known as Turks. Another son of Yafis was Cheen — a vast area of land was named after him which is now known as China.</p></div>
+<div class="para-row"><span class="page-ref">p.40</span><p class="para-text">In the Gobi desert two gypsy tribes used to live — Mongol and Turk. The tribe began to be known as Turks in the sixth century. One offshoot settled in <span class="place">Azerbaijan<span class="tip">Azerbaijan · northwestern Iran + Republic of Azerbaijan</span></span> during the fifth century; thereafter they dispersed further and occupied what is called modern Turkey. The Turks who destroyed Iran, Iraq etc. were Mongols. The modern Chinese are not similar to Turks and therefore they are known as Banu Qantura in Ahadith. Thus the term "Turks" in Hadith refers to Russians, "Banu Qantura" are Chinese, and "Bani Asfar" are Europeans.</p></div>
+<div class="para-row"><span class="page-ref"></span><p class="para-text">A saying of Imam Mohammed Baqir (A.S.): <em>"Severe discords will occur after the arrival of Russians in Arabia and Europeans in <span class="place">Palestine<span class="tip">Palestine · historical region; today comprising Israel, West Bank and Gaza</span></span>. These discords will result in the destruction of Syria which will occur after clashes among three rival flags: (1) Sayyed Hasani, (2) Omayyads, and (3) Banu Qais. The banner of Sayyad Hasani will come from Iran. The Omayyad flag will belong to Syria and the banners of Banu Qais will come from Egypt."</em></p></div>
+</section>
+
+<div class="ornament-line"><span>✦ ✦ ✦</span></div>
+
+<section class="book-section" id="sufyani">
+<h2 class="section-heading">Sufyani's Rise and Fall</h2>
+<div class="para-row"><span class="page-ref">p.42</span><p class="para-text drop-cap">Hozaifa Yamani is reported to have said: <em>"Sufyani will enter Egypt and occupy the country for four months. He will unleash a rain of murders and horrors."</em> In another Hadith it is reported that after the occupation of Egypt, Sufyani will send his army to <span class="place">Medina<span class="tip">Medina · Madinah Province, Saudi Arabia</span></span>. After that they will advance towards <span class="place">Mecca<span class="tip">Mecca · Makkah Province, Saudi Arabia</span></span>. Upon reaching Beda all of them will die in landslides and sink into the earth.</p></div>
+<div class="para-row"><span class="page-ref">p.43</span><p class="para-text">Imam Jafar Sadiq (A.S.) had said: <em>"Sufyani will emerge in the month of Rajab and gain control over <span class="place">Damascus<span class="tip">Damascus · capital of Syria</span></span>, <span class="place">Homs<span class="tip">Homs · Homs Governorate, central Syria — ancient name: Emessa</span></span>, <span class="place">Jordan<span class="tip">Jordan · Hashemite Kingdom of Jordan</span></span>, <span class="place">Palestine<span class="tip">Palestine · historical region; today comprising Israel, West Bank and Gaza</span></span> and <span class="place">Qinnasrin<span class="tip">Qinnasrin (Qansarin) · ancient city near Aleppo, northern Syria — now ruins</span></span>."</em></p></div>
+<div class="para-row"><span class="page-ref"></span><p class="para-text">A prediction by Imam Zainul Abedeen (A.S.): <em>"Before the advent of Imam Mahdi, a man named Auf Aslami will emerge from <span class="place">Kuwait<span class="tip">Kuwait City · Kuwait</span></span>. He will be killed in a mosque in Syria. Thereafter Shoaib ibn Saleh will emerge in <span class="place">Samarqand<span class="tip">Samarkand · Samarkand Region, Uzbekistan</span></span> and then Sufyani will emerge in Palestine."</em></p></div>
+</section>
+
+<div class="ornament-line"><span>✦ ✦ ✦</span></div>
+
+<section class="book-section" id="dajjal">
+<h2 class="section-heading">Dajjal</h2>
+<div class="para-row"><span class="page-ref">p.22</span><p class="para-text drop-cap">Ali (A.S.) replied: <em>"He is Sayyad. Woe to him who affirms him and lucky is he who disbelieves him. He will emerge from a village called <span class="place">Isfahan<span class="tip">Isfahan · Isfahan Province, central Iran</span></span> from an area called Judea. There will be a blister in his right eye. His left eye will be in the forehead shining like a morning star. Between his two eyes there will be letters KAFIR (in Arabic) written very conspicuously. He will swim across oceans. A cloud of smoke will be in front of him and a white mountain behind him. He will be killed at a place called Aqba in <span class="place">Syria<span class="tip">Syria · Syrian Arab Republic</span></span>. He will be killed on Friday afternoon by a man in whose lead Prophet Jesus will offer prayer."</em></p></div>
+
+<h3 class="subsection-heading">Dabbatul Arz</h3>
+<div class="para-row"><span class="page-ref">p.25</span><p class="para-text">Saasaa further adds: <em>"We asked Ali (A.S.): What will happen afterwards?" Ali replied: "Near Mount <span class="place">Safa<span class="tip">Mount Safa · within the Masjid al-Haram, Mecca, Saudi Arabia</span></span> and <span class="place">Marwa<span class="tip">Mount Marwa · within the Masjid al-Haram, Mecca, Saudi Arabia</span></span>, Dabbatul Arz will come. He will have the ring of Prophet Solomon and the stick of Moses. He will press the ring to the forehead of a Kafir and lo! there will appear a mark indicating his kafirhood. He will then raise his head to the sky and with the permission of the Almighty see the East and West simultaneously. This event will take place after the sunrise from the West. After that the door to repentance will be closed."</em></p></div>
+</section>
+
+<div class="ornament-line"><span>✦ ✦ ✦</span></div>
+
+<section class="book-section" id="summary-signs">
+<h2 class="section-heading">Marks of Advent — A Summary</h2>
+<div class="para-row"><span class="page-ref">p.50</span><p class="para-text drop-cap">A number of books have been written about prophecies, auguries and signs preceding the advent of Imam Mahdi. Observation shows that many have taken place while a number of them are yet to take place. The beginning will be made by discords in the Middle East, which will eventually spread throughout the world. Ominous constellations will appear in the sky followed by a very bright comet.</p></div>
+<div class="para-row"><span class="page-ref">p.52</span><p class="para-text">Russians will begin to interfere in the affairs of the Middle East. Europeans will meddle in <span class="place">Palestine<span class="tip">Palestine · historical region; today comprising Israel, West Bank and Gaza</span></span>. War will thus start there and spread throughout the world. Nuclear weapons will perhaps be used, resulting in earthquakes, landslides and destruction of population. Egypt will be completely devastated. <span class="place">Baghdad<span class="tip">Baghdad · capital of Iraq</span></span> and <span class="place">Basra<span class="tip">Basra · Basra Governorate, southern Iraq</span></span> will be completely ruined. Flames of fires will rise in Saudi Arabia. Fires will erupt in petrol installations of <span class="place">Aden<span class="tip">Aden · Aden Governorate, Yemen</span></span>.</p></div>
+<div class="para-row"><span class="page-ref">p.53</span><p class="para-text">Man has already reached the moon. Imam Jafar Sadiq (A.S.) had said that man's face will be seen in the moon, and a hand will be seen in the sky — denoting the conquest of space. The use of sophisticated weaponry would cause a change in the movement of the solar system; as a result the sun will appear as stationary or the earth will stop moving from midday to afternoon. Solar and lunar eclipses will then occur in the same month — which is mathematically impossible now.</p></div>
+<div class="para-row"><span class="page-ref">p.54</span><p class="para-text">On Thursday night, 23rd of Ramzan, a shriek will be heard from the sky. By that time the Middle East would be ravaged by famines and there will emerge the Sufyani. People of <span class="place">Algeria<span class="tip">Algeria · North Africa</span></span> and <span class="place">Morocco<span class="tip">Morocco · North Africa</span></span> will march towards Egypt, carrying yellow flags. A man from the progeny of Imam Hasan will emerge from <span class="place">Taleqan<span class="tip">Taleqan · northwestern Iran, Alborz Province</span></span>. His Commander-in-Chief will be Shoaib ibn Saleh Tamimi. In their crusade they will pass through <span class="place">Kirman<span class="tip">Kerman · Kerman Province, southeastern Iran</span></span> and reach <span class="place">Multan<span class="tip">Multan · Punjab Province, Pakistan</span></span>. Then taking the route of the coastal area they will reach <span class="place">Basra<span class="tip">Basra · Basra Governorate, southern Iraq</span></span> and then march towards <span class="place">Koofa<span class="tip">Kufa · Najaf Governorate, Iraq</span></span>.</p></div>
+<div class="para-row"><span class="page-ref"></span><p class="para-text">Imam Mahdi will then proceed to <span class="place">Jerusalem<span class="tip">Jerusalem · Holy City, Israel/Palestine</span></span> and make it his capital. From there he will send governors to various parts of the world. All the world will obey him and there will be only one religion throughout the world. The government of Imam Mahdi will last for seventy years and the earth will become an abode of peace and prosperity.</p></div>
+</section>
+
+<div class="ornament-line"><span>✦ ✦ ✦</span></div>
+
+<section class="book-section" id="jean-dixon">
+<h2 class="section-heading">The Visions of an American Seeress — Jean Dixon</h2>
+<div class="para-row"><span class="page-ref">p.55</span><p class="para-text drop-cap">Jean Dixon does not need any introduction. She was born a few years before the Second World War in Germany. Her parents then migrated to California. From her childhood, Jean has been godly and religious-minded. Out of her forecasts 99% have proved to be correct. Among her prophecies are the deaths of Gandhiji, Nehru, President Kennedy, and the overthrow of President Soekarno, the emergence of communist China, etc.</p></div>
+<div class="para-row"><span class="page-ref">p.56</span><p class="para-text">Jean Dixon had said: <em>"The arms race would be accelerated in 1968 A.D. and America will have to suffer in it. China will infiltrate into Russian borders, and a U.S.-Soviet pact will take place. China will be the first to start germ warfare. World war will start in 1981 A.D. and will continue for twenty years."</em></p></div>
+<div class="para-row"><span class="page-ref"></span><p class="para-text">One of the famous prophecies of Jean is the birth and advent of a super man: <em>"The super man has taken birth in the house of a middle eastern farmer at 7.00 AM in 1962 A.D. He is full of knowledge and wisdom. One day he will revolutionise the world and rule it. He will teach wisdom and the concepts of a world religion. His spiritual powers will be felt throughout the world by 1980 A.D. He will become all powerful by 1999 A.D. and the world will affirm his truthfulness."</em></p></div>
+<div class="para-row"><span class="page-ref">p.57</span><p class="para-text">The compiler of the Urdu book opines that the person referred to by Jean is Imam Mahdi, but in my opinion the vision of Jean refers to Sayyed Hasani. Jean first has a vision and then interprets it — she herself has admitted that sometimes she makes a mistake in interpretation. The occultation of Imam Mahdi is a divine secret and none can become aware of its mystery.</p></div>
+</section>
+
+<div class="ornament-line"><span>✦ ✦ ✦</span></div>
+
+<section class="book-section" id="shah-wali">
+<h2 class="section-heading">Shah Naimatullah Wali</h2>
+<div class="para-row"><span class="page-ref">p.57</span><p class="para-text drop-cap">He is a famous personality — a pious man who had travelled through <span class="place">Bukhara<span class="tip">Bukhara · Bukhara Region, Uzbekistan</span></span>, <span class="place">Iran<span class="tip">Iran · Islamic Republic of Iran</span></span> and India. He has composed a famous prophetic encomium in which he narrated signs of the advent of Imam Mahdi. It is believed that people have made additions and alterations in his poetry. Shah Naimatullah was a great seer and those who know anything about him, praise him for his piety.</p></div>
+</section>
+
+<div class="ornament-line"><span>✦ ✦ ✦</span></div>
+
+<section class="book-section" id="glossary-3">
+<h2 class="section-heading">Geographical Glossary — Part III</h2>
+<p class="epigraph">Historical place names in this section and their modern equivalents</p>
+<div class="glossary-grid">
+  <div class="glossary-item"><span class="glossary-old">Dailam</span><span class="glossary-arrow">→</span><span class="glossary-new">Daylam, Gilan Province, <strong>Iran</strong></span></div>
+  <div class="glossary-item"><span class="glossary-old">Taleqan</span><span class="glossary-arrow">→</span><span class="glossary-new">Alborz Province, northwestern <strong>Iran</strong></span></div>
+  <div class="glossary-item"><span class="glossary-old">Qinnasrin / Qansain</span><span class="glossary-arrow">→</span><span class="glossary-new">Ancient ruins near Aleppo, northern <strong>Syria</strong></span></div>
+  <div class="glossary-item"><span class="glossary-old">Homs / Emessa</span><span class="glossary-arrow">→</span><span class="glossary-new">Homs, Homs Governorate, <strong>Syria</strong></span></div>
+  <div class="glossary-item"><span class="glossary-old">Jaloola</span><span class="glossary-arrow">→</span><span class="glossary-new">Jalula, Diyala Governorate, <strong>Iraq</strong></span></div>
+  <div class="glossary-item"><span class="glossary-old">Khanaqueen</span><span class="glossary-arrow">→</span><span class="glossary-new">Khanaqin, Diyala Governorate, <strong>Iraq</strong></span></div>
+  <div class="glossary-item"><span class="glossary-old">Wast</span><span class="glossary-arrow">→</span><span class="glossary-new">Wasit, Wasit Governorate, <strong>Iraq</strong></span></div>
+  <div class="glossary-item"><span class="glossary-old">Tigris</span><span class="glossary-arrow">→</span><span class="glossary-new">Major river through <strong>Turkey, Syria and Iraq</strong></span></div>
+  <div class="glossary-item"><span class="glossary-old">Euphrates</span><span class="glossary-arrow">→</span><span class="glossary-new">Major river through <strong>Turkey, Syria and Iraq</strong></span></div>
+  <div class="glossary-item"><span class="glossary-old">Jabiya</span><span class="glossary-arrow">→</span><span class="glossary-new">Near Damascus, southern <strong>Syria</strong></span></div>
+  <div class="glossary-item"><span class="glossary-old">Qom / Qoom</span><span class="glossary-arrow">→</span><span class="glossary-new">Qom, Qom Province, <strong>Iran</strong></span></div>
+  <div class="glossary-item"><span class="glossary-old">Bukhara</span><span class="glossary-arrow">→</span><span class="glossary-new">Bukhara, Bukhara Region, <strong>Uzbekistan</strong></span></div>
+  <div class="glossary-item"><span class="glossary-old">Saihun</span><span class="glossary-arrow">→</span><span class="glossary-new">Syr Darya river, <strong>Central Asia</strong></span></div>
+  <div class="glossary-item"><span class="glossary-old">Jaihoon</span><span class="glossary-arrow">→</span><span class="glossary-new">Amu Darya river, <strong>Central Asia / Afghanistan</strong></span></div>
+</div>
+</section>
+
+<!-- ═══════════════════ PART IV ═══════════════════ -->
+<div class="part-banner">
+  <div class="part-num">Part IV</div>
+  <div class="part-title">Companions &amp; Conclusions</div>
+</div>
+
+<section class="book-section" id="companions-table">
+<h2 class="section-heading">Cities of Origin of Imam Mahdi's Companions</h2>
+<p class="epigraph">From the address of Imam Ali (A.S.) and sayings of Imam Jafar Sadiq (A.S.) — pages 61–64 of the original</p>
+<div class="para-row"><span class="page-ref">p.61</span><p class="para-text drop-cap">The following table lists the cities of origin of those persons who will gather before Imam Mahdi (A.S.). The names of the cities are originally in Arabic language and according to the geography of that time. Modern equivalents are provided. Earnest readers are requested to consult original old sources for verification.</p></div>
+<table class="companions-table">
+  <thead><tr><th>#</th><th>Historical Name</th><th>Modern Equivalent</th><th>Persons</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td>Ispehan</td><td><span class="place">Isfahan<span class="tip">Isfahan · Isfahan Province, Iran</span></span>, Iran</td><td>1</td></tr>
+    <tr><td>2</td><td>Ahwaz</td><td><span class="place">Ahvaz<span class="tip">Ahvaz · Khuzestan Province, southwestern Iran</span></span>, Iran</td><td>2</td></tr>
+    <tr><td>3</td><td>Astakhar</td><td><span class="place">Istakhr<span class="tip">Istakhr · ruins near Persepolis, Fars Province, Iran</span></span> (near Persepolis), Iran</td><td>2</td></tr>
+    <tr><td>4</td><td>Antaqiya</td><td><span class="place">Antakya<span class="tip">Antakya · Hatay Province, southern Turkey — ancient Antioch</span></span> (Antioch), Turkey</td><td>2</td></tr>
+    <tr><td>5</td><td>Aswan</td><td><span class="place">Aswan<span class="tip">Aswan · Aswan Governorate, southern Egypt</span></span>, Egypt</td><td>1</td></tr>
+    <tr><td>6</td><td>Eela</td><td><span class="place">Eilat<span class="tip">Eilat · southernmost city in Israel, on the Red Sea</span></span>, Israel (Red Sea coast)</td><td>2</td></tr>
+    <tr><td>7</td><td>Armenia</td><td><span class="place">Armenia<span class="tip">Armenia · Republic of Armenia, South Caucasus</span></span></td><td>2</td></tr>
+    <tr><td>8</td><td>Alegria</td><td><span class="place">Algeria<span class="tip">Algeria · North Africa</span></span></td><td>2</td></tr>
+    <tr><td>9</td><td>Basra</td><td><span class="place">Basra<span class="tip">Basra · Basra Governorate, southern Iraq</span></span>, Iraq</td><td>3</td></tr>
+    <tr><td>10</td><td>Bahrain</td><td><span class="place">Bahrain<span class="tip">Bahrain · island kingdom in the Persian Gulf</span></span></td><td>1</td></tr>
+    <tr><td>11</td><td>Beirut</td><td><span class="place">Beirut<span class="tip">Beirut · capital of Lebanon</span></span>, Lebanon</td><td>1</td></tr>
+    <tr><td>12</td><td>Baalbek</td><td><span class="place">Baalbek<span class="tip">Baalbek · Baalbek-Hermel Governorate, Lebanon</span></span>, Lebanon</td><td>2</td></tr>
+    <tr><td>13</td><td>Balkh</td><td><span class="place">Balkh<span class="tip">Balkh · Balkh Province, northern Afghanistan</span></span>, Afghanistan</td><td>1</td></tr>
+    <tr><td>14</td><td>Tirmiz</td><td><span class="place">Termez<span class="tip">Termez · Surxondaryo Region, southern Uzbekistan — on Afghan border</span></span>, Uzbekistan</td><td>2</td></tr>
+    <tr><td>15</td><td>Aleppo</td><td><span class="place">Aleppo<span class="tip">Aleppo · Aleppo Governorate, northern Syria</span></span>, Syria</td><td>2</td></tr>
+    <tr><td>16</td><td>Haran</td><td><span class="place">Harran<span class="tip">Harran · Şanlıurfa Province, southeastern Turkey</span></span>, Turkey</td><td>2</td></tr>
+    <tr><td>17</td><td>Halwan</td><td><span class="place">Hulwan<span class="tip">Hulwan (al-Hulwaniyya) · ancient district, near Khanaqin, Iraq</span></span>, Iraq</td><td>3</td></tr>
+    <tr><td>18</td><td>Emessa</td><td><span class="place">Homs<span class="tip">Homs · Homs Governorate, central Syria — ancient name: Emessa</span></span>, Syria</td><td>1</td></tr>
+    <tr><td>19</td><td>Qalat</td><td><span class="place">Kalat<span class="tip">Kalat · Balochistan Province, Pakistan</span></span>, Balochistan, Pakistan</td><td>1</td></tr>
+    <tr><td>20</td><td>Khaiber</td><td><span class="place">Khaybar<span class="tip">Khaybar · Al Madinah Region, northwestern Saudi Arabia</span></span>, Saudi Arabia</td><td>2</td></tr>
+    <tr><td>21</td><td>Damascus</td><td><span class="place">Damascus<span class="tip">Damascus · capital of Syria</span></span>, Syria</td><td>3</td></tr>
+    <tr><td>22</td><td>Dailum / Dailam</td><td><span class="place">Daylam<span class="tip">Daylam · Gilan Province, northwestern Iran</span></span>, Gilan, Iran</td><td>4</td></tr>
+    <tr><td>23</td><td>Ray</td><td><span class="place">Rey<span class="tip">Rey · Tehran Province, Iran — now a district of Tehran</span></span> (Tehran), Iran</td><td>7</td></tr>
+    <tr><td>24</td><td>Ruqqa</td><td><span class="place">Raqqa<span class="tip">Raqqa · Raqqa Governorate, northern Syria</span></span>, Syria</td><td>3</td></tr>
+    <tr><td>25</td><td>Sammarra</td><td><span class="place">Samarra<span class="tip">Samarra · Saladin Governorate, central Iraq</span></span>, Iraq</td><td>2</td></tr>
+    <tr><td>26</td><td>Samawa</td><td><span class="place">Samawah<span class="tip">Samawah · Al-Muthanna Governorate, southern Iraq</span></span>, Iraq</td><td>1</td></tr>
+    <tr><td>27</td><td>Shiraz</td><td><span class="place">Shiraz<span class="tip">Shiraz · Fars Province, southwestern Iran</span></span>, Iran</td><td>1</td></tr>
+    <tr><td>28</td><td>Sanaa</td><td><span class="place">Sanaa<span class="tip">Sanaa · capital of Yemen</span></span>, Yemen</td><td>1</td></tr>
+    <tr><td>29</td><td>Toos</td><td><span class="place">Tus<span class="tip">Tus · ancient city near Mashhad, Razavi Khorasan, Iran</span></span> (near Mashhad), Iran</td><td>4</td></tr>
+    <tr><td>30</td><td>Taleqan</td><td><span class="place">Taleqan<span class="tip">Taleqan · northwestern Iran, Alborz Province</span></span>, Alborz, Iran</td><td>24</td></tr>
+    <tr><td>31</td><td>Palestine</td><td><span class="place">Palestine<span class="tip">Palestine · historical region; today comprising Israel, West Bank and Gaza</span></span></td><td>14</td></tr>
+    <tr><td>32</td><td>Farghand</td><td><span class="place">Fergana<span class="tip">Fergana · Fergana Region, eastern Uzbekistan</span></span>, Uzbekistan</td><td>3</td></tr>
+    <tr><td>33</td><td>Qandhar</td><td><span class="place">Kandahar<span class="tip">Kandahar · Kandahar Province, southern Afghanistan</span></span>, Afghanistan</td><td>22</td></tr>
+    <tr><td>34</td><td>Qoom</td><td><span class="place">Qom<span class="tip">Qom · Qom Province, central Iran</span></span>, Iran</td><td>18</td></tr>
+    <tr><td>35</td><td>Qairwan</td><td><span class="place">Kairouan<span class="tip">Kairouan · Kairouan Governorate, Tunisia — ancient holy city</span></span>, Tunisia</td><td>12</td></tr>
+    <tr><td>36</td><td>Qazvin</td><td><span class="place">Qazvin<span class="tip">Qazvin · Qazvin Province, northwestern Iran</span></span>, Iran</td><td>10</td></tr>
+    <tr><td>37</td><td>Kiraman</td><td><span class="place">Kerman<span class="tip">Kerman · Kerman Province, southeastern Iran</span></span>, Iran</td><td>3</td></tr>
+    <tr><td>38</td><td>Koofa</td><td><span class="place">Kufa<span class="tip">Kufa · Najaf Governorate, Iraq</span></span>, Iraq</td><td>14</td></tr>
+    <tr><td>39</td><td>Karbala</td><td><span class="place">Karbala<span class="tip">Karbala · Karbala Governorate, Iraq — holy Shia city</span></span>, Iraq</td><td>3</td></tr>
+    <tr><td>40</td><td>Mecca</td><td><span class="place">Mecca<span class="tip">Mecca · Makkah Province, Saudi Arabia</span></span>, Saudi Arabia</td><td>4</td></tr>
+    <tr><td>41</td><td>Medina</td><td><span class="place">Medina<span class="tip">Medina · Madinah Province, Saudi Arabia</span></span>, Saudi Arabia</td><td>18</td></tr>
+    <tr><td>42</td><td>Merv / Mervared</td><td><span class="place">Mary<span class="tip">Mary · Mary Region, Turkmenistan</span></span>, Turkmenistan</td><td>12</td></tr>
+    <tr><td>43</td><td>Mosul</td><td><span class="place">Mosul<span class="tip">Mosul · Nineveh Governorate, northern Iraq</span></span>, Iraq</td><td>2</td></tr>
+    <tr><td>44</td><td>Moolyan / Multan</td><td><span class="place">Multan<span class="tip">Multan · Punjab Province, Pakistan</span></span>, Pakistan</td><td>12</td></tr>
+    <tr><td>45</td><td>Madaen</td><td><span class="place">Ctesiphon<span class="tip">Ctesiphon · ancient capital near Baghdad, Saladin Governorate, Iraq</span></span> (near Baghdad), Iraq</td><td>6</td></tr>
+    <tr><td>46</td><td>Neshapore</td><td><span class="place">Nishapur<span class="tip">Nishapur · Razavi Khorasan Province, northeastern Iran</span></span>, Iran</td><td>15</td></tr>
+    <tr><td>47</td><td>Nasibain</td><td><span class="place">Nusaybin<span class="tip">Nusaybin · Mardin Province, southeastern Turkey — on Syrian border</span></span>, Turkey / <span class="place">Qamishli<span class="tip">Qamishli · Al-Hasakah Governorate, northeastern Syria</span></span>, Syria</td><td>2</td></tr>
+    <tr><td>48</td><td>Samarqand</td><td><span class="place">Samarkand<span class="tip">Samarkand · Samarkand Region, Uzbekistan</span></span>, Uzbekistan</td><td>5</td></tr>
+    <tr><td>49</td><td>Sarandeep</td><td><span class="place">Sri Lanka<span class="tip">Sri Lanka · island nation south of India</span></span></td><td>3</td></tr>
+    <tr><td>50</td><td>Sanjar</td><td><span class="place">Sanjar<span class="tip">Sanjar · Mary Region, Turkmenistan</span></span>, Turkmenistan</td><td>4</td></tr>
+    <tr><td>51</td><td>Sind</td><td><span class="place">Sindh<span class="tip">Sindh · Province of Pakistan</span></span>, Pakistan</td><td>3</td></tr>
+    <tr><td>52</td><td>Sijistan</td><td><span class="place">Sistan-Baluchestan<span class="tip">Sistan and Baluchestan Province · southeastern Iran / Nimroz Province, Afghanistan</span></span>, Iran</td><td>3</td></tr>
+    <tr><td>53</td><td>Herat</td><td><span class="place">Herat<span class="tip">Herat · Herat Province, western Afghanistan</span></span>, Afghanistan</td><td>10</td></tr>
+    <tr><td>54</td><td>Hamdan</td><td><span class="place">Hamadan<span class="tip">Hamadan · Hamadan Province, western Iran</span></span>, Iran</td><td>4</td></tr>
+    <tr><td>55</td><td>Yemen</td><td><span class="place">Yemen<span class="tip">Yemen · Arabian Peninsula</span></span></td><td>14</td></tr>
+    <tr><td>56</td><td>Aden</td><td><span class="place">Aden<span class="tip">Aden · Aden Governorate, Yemen</span></span>, Yemen</td><td>2</td></tr>
+    <tr><td>57</td><td>Asqalan</td><td><span class="place">Ashkelon<span class="tip">Ashkelon · Southern District, Israel — ancient Philistine city</span></span>, Israel</td><td>5</td></tr>
+    <tr><td>58</td><td>Oman</td><td><span class="place">Oman<span class="tip">Oman · Sultanate of Oman</span></span></td><td>1</td></tr>
+    <tr><td>59</td><td>Korea</td><td>Korea (uncertain identification)</td><td>22</td></tr>
+    <tr><td>60</td><td>Tabaristan</td><td><span class="place">Mazandaran<span class="tip">Mazandaran Province · northern Iran, along Caspian Sea — ancient name: Tabaristan</span></span>, Iran</td><td>1</td></tr>
+    <tr><td>61</td><td>Abyssinia</td><td><span class="place">Ethiopia<span class="tip">Ethiopia · East Africa (called Habasha / Abyssinia in classical texts)</span></span></td><td>8</td></tr>
+    <tr><td>62</td><td>Afranj</td><td>Europe (general)</td><td>2</td></tr>
+    <tr><td>63</td><td>Bab-ul-Abwab</td><td><span class="place">Derbent<span class="tip">Derbent · Republic of Dagestan, Russia — ancient gate city on Caspian</span></span>, Dagestan, Russia</td><td>1</td></tr>
+    <tr><td>64</td><td>Tabriya</td><td><span class="place">Tiberias<span class="tip">Tiberias · Northern District, Israel — on Sea of Galilee</span></span>, Israel</td><td>4</td></tr>
+    <tr><td>65</td><td>Wadi-ul-Qora</td><td><span class="place">Wadi al-Qura<span class="tip">Wadi al-Qura · ancient valley in Hejaz region, northwestern Saudi Arabia</span></span>, Hejaz, Saudi Arabia</td><td>1</td></tr>
+    <tr><td>66</td><td>Sherwan</td><td><span class="place">Shirvan<span class="tip">Shirvan · southeastern Republic of Azerbaijan</span></span>, Azerbaijan</td><td>4</td></tr>
+    <tr><td>67</td><td>Sarkhas</td><td><span class="place">Sarakhs<span class="tip">Sarakhs · on the Iran-Turkmenistan border</span></span>, Iran/Turkmenistan border</td><td>2</td></tr>
+    <tr><td>68</td><td>Iskandariya</td><td><span class="place">Alexandria<span class="tip">Alexandria · Al-Iskandariyya, Egypt — second largest Egyptian city</span></span>, Egypt</td><td>2</td></tr>
+    <tr><td>69</td><td>Abadan</td><td><span class="place">Abadan<span class="tip">Abadan · Khuzestan Province, southwestern Iran</span></span>, Iran</td><td>9</td></tr>
+  </tbody>
+</table>
+<div class="para-row" style="margin-top:1.2rem;"><span class="page-ref">p.65</span><p class="para-text"><em>Notes on the table:</em> Antakiy: These two persons belong originally to some other place. One is the master and the other is the servant. They will be travelling via <span class="place">Antakya<span class="tip">Antakya · Hatay Province, southern Turkey — ancient Antioch</span></span> when the voice will be heard. Sarandeep (<span class="place">Sri Lanka<span class="tip">Sri Lanka · island nation south of India — ancient name: Sarandeep / Ceylon</span></span>): These persons are Iranian merchants visiting Ceylon for trade. Herb minal Balkh: These gentlemen will have fled from <span class="place">Balkh<span class="tip">Balkh · Balkh Province, northern Afghanistan</span></span> due to fear of their family men. Roman Muslim Fugitives: These persons belong to some other place but will be residing in Rome (Europe) as political refugees.</p></div>
+</section>
+
+<div class="ornament-line"><span>✦ ✦ ✦</span></div>
+
+<section class="book-section" id="the-313">
+<h2 class="section-heading">Khutaba of Ali (A.S.) — The 313 Men</h2>
+<div class="para-row"><span class="page-ref">p.66</span><p class="para-text drop-cap">Imam Ali Amirul Moameneen said: <em>"Upon his emergence Sufyani will start annihilating every person whose names are Mohammed, Ali, Fatema, Hasan, Hosain, Jafar, Moosa, Zainab, Maryam, Sakina, Khadija, Roqyya etc. He will then dispatch his mercenaries to various cities and repeat the same outrages there. All this because of his enmity towards the Holy Ahlul Bait."</em></p></div>
+<div class="para-row"><span class="page-ref">p.67</span><p class="para-text"><em>"Thereafter he will come to <span class="place">Koofa<span class="tip">Kufa · Najaf Governorate, Iraq</span></span> and kill human beings like animals. After that he will go to <span class="place">Medina<span class="tip">Medina · Madinah Province, Saudi Arabia</span></span> and indulge in killing orgies for three days. Doorway gallows will be fixed and a large number of Medinites will be thus eliminated. Thereafter some factors will arise and Sufyani will be overwhelmed with fear of life. He will flee to Syria where he will spread a reign of terror. His tyranny and oppression will be so much that the angels will feel distress in the Heavens."</em></p></div>
+<div class="para-row"><span class="page-ref"></span><p class="para-text"><em>"The Arch angel Jibril will descend at <span class="place">Baitul Miqdas<span class="tip">Baitul Miqdas · Jerusalem, Israel/Palestine — the holy sanctuary (al-Masjid al-Aqsa)</span></span> and proclaim: 'Hear, O people of the earth. Mahdi al Mohammadi has appeared in Mecca. Help him and obey him.'"</em></p></div>
+<div class="para-row"><span class="page-ref"></span><p class="para-text">Ali (A.S.) replied: <em>"He has a bright forehead and face bright like moon. His name will be the name of the Prophet (S.A.). His father's name is Hasan ibn Ali. He is from the children of Fatema and progeny of Hosain. Upon the advent of Mahdi, people equal in number of the people of Badr will gather around him. His companions will be 313 in number. Their hearts will be hard like steel and they won't care even if the mountains obstruct their ways. God has tested their hearts for belief in unity. Their voices are heard, remembering God in the dark of night. I know their names as well as the names of their parents."</em></p></div>
+</section>
+
+<div class="ornament-line"><span>✦ ✦ ✦</span></div>
+
+<section class="book-section" id="brief-summary">
+<h2 class="section-heading">A Brief Summary of Signs</h2>
+<div class="para-row"><span class="page-ref">p.75</span><p class="para-text drop-cap">The following is a condensed list of the principal signs of the advent of Imam Mahdi (A.S.):</p></div>
+<ul class="portent-list">
+  <li>(1) <span class="place">Baghdad<span class="tip">Baghdad · capital of Iraq</span></span> will be completely destroyed.</li>
+  <li>(2) <span class="place">Basra<span class="tip">Basra · Basra Governorate, southern Iraq</span></span> will sink.</li>
+  <li>(3) Arabs will be autocrats.</li>
+  <li>(6) <span class="place">Qom<span class="tip">Qom · Qom Province, central Iran — major centre of Islamic scholarship</span></span> will be the centre of Islamic learning superseding <span class="place">Najaf<span class="tip">Najaf · Najaf Governorate, Iraq — historic Shia holy city</span></span>. Religious orders will be issued from there.</li>
+  <li>(8) <span class="place">Azerbaijan<span class="tip">Azerbaijan · northwestern Iran + Republic of Azerbaijan</span></span> will be ravaged by war.</li>
+  <li>(10) Democratic form of government will prevail throughout the world.</li>
+  <li>(28) Transportation will become very speedy. (29) Road accidents will keep on increasing. (30) Dresses will be shorter in length. (31) Men and women will try to resemble the opposite sex. (32) There will take place unisexual marriages.</li>
+  <li>(33) The populated areas of <span class="place">Koofa<span class="tip">Kufa · Najaf Governorate, Iraq</span></span> and <span class="place">Najaf<span class="tip">Najaf · Najaf Governorate, Iraq</span></span> will be adjacent to one another.</li>
+  <li>(36) Water will begin to fill in the lake of Sawa near <span class="place">Qom<span class="tip">Qom · Qom Province, central Iran</span></span>.</li>
+  <li>(42) Emperor's rule will cease in Iran.</li>
+  <li>(51) Sayyed Hasani will emerge in Iran. He will reach <span class="place">Multan<span class="tip">Multan · Punjab Province, Pakistan</span></span> via <span class="place">Kerman<span class="tip">Kerman · Kerman Province, southeastern Iran</span></span>, conquering the whole area. He will reach Imam Mahdi and submit to him.</li>
+  <li>(57) Russians will reach Arabia and Englishmen will arrive in <span class="place">Palestine<span class="tip">Palestine · historical region; today comprising Israel, West Bank and Gaza</span></span>. They will then clash.</li>
+  <li>(65) A gigantic fire will erupt in the abyss of <span class="place">Aden<span class="tip">Aden · Aden Governorate, Yemen</span></span>.</li>
+</ul>
+</section>
+
+<div class="ornament-line"><span>✦ ✦ ✦</span></div>
+
+<section class="book-section" id="iraqis">
+<h2 class="section-heading">The Plight of Iraqis — Restriction on Hajj</h2>
+<div class="para-row"><span class="page-ref">p.77</span><p class="para-text drop-cap">Imam Jafar Sadiq (A.S.) thus addressed the Koofis: <em>"Perform Hajj ere you won't be able to do it. Discharge your duty of Hajj before the Barjaniya stops you. Do it before the dismantling of the mosque between <span class="place">Naharwan<span class="tip">Naharwan · ancient city near Baghdad, Iraq — site of famous 658 CE battle</span></span> and Naklistan. Perform Hajj ere the tree from which Maryam got fresh dates is uprooted in <span class="place">Zoora<span class="tip">Zoora · classical name for Baghdad, Iraq</span></span>. After that you won't be able to perform Hajj on account of your own inability."</em></p></div>
+<div class="para-row"><span class="page-ref">p.78</span><p class="para-text"><em>"O people of Iraq! I am sorry for that time when the banners from <span class="place">Khorasan<span class="tip">Khorasan · northeastern Iran + parts of Turkmenistan and Afghanistan</span></span> will come to you. <span class="place">Tehran<span class="tip">Tehran · capital of Iran</span></span> will have to feel sorrow on account of Russians and Iraq will experience calamity on account of the people of Tehran, and more calamity will come from Shatt."</em></p></div>
+<div class="para-row"><span class="page-ref"></span><p class="para-text">Sudair asked: <em>"O master, what is Shatt?"</em> Imam (A.S.) replied: <em>"They are a community. Their ears are short and they are iron-clad. They have small eyes and sparse beards. Their words are satanic. I seek refuge in God from their mischiefs. God will then help the religion and grant it victory through our Mahdi."</em> The physique of the community that will pass through Shatt — the <span class="place">Persian Gulf<span class="tip">Persian Gulf · body of water between Arabian Peninsula and Iran</span></span> — indicates the entry of Chinese via the Persian Gulf into Iraq.</p></div>
+</section>
+
+<div class="ornament-line"><span>✦ ✦ ✦</span></div>
+
+<section class="book-section" id="astrology">
+<h2 class="section-heading">Astrology and the Advent of Imam Mahdi</h2>
+<div class="para-row"><span class="page-ref">p.79</span><p class="para-text drop-cap">I am not a believer or follower of astrology but I do believe that efforts put in any direction do not go to waste. Astrology in itself is a science based on Mathematics, Astronomy and logic. The interpretive aspect of astrology makes the conclusions vary from one astrologer to another and thus definiteness is lost. It thus becomes unreliable. Any how a large number of people in the world believe in astrology and seek guidance from astrologers. The readers may see the wonder of the knowledge of non-Muslim savants as well as the marvels of the prophecies of our divine leaders. What the astrologers predict now was said by the Holy Prophet and Imams thirteen centuries ago.</p></div>
+</section>
+
+<div class="ornament-line"><span>✦ ✦ ✦</span></div>
+
+<section class="book-section" id="soteba">
+<h2 class="section-heading">Soteba — The Well-Known Arab Astrologer</h2>
+<div class="para-row"><span class="page-ref">p.80</span><p class="para-text drop-cap">It is written in Beharul Anwar that Kaab ibn ul Hars said: "King Shazan was perplexed in some matter, so he summoned the famous astrologer Soteh. Upon Soteh's arrival the king wanted to test his erudition so he concealed a deenar under his feet. Old Soteh replied: <em>'I swear by the House and its surroundings (Kaaba and Haram) and I swear by the solid stone (Hajr-e-Aswad) and I swear by the night when it becomes dark and I swear by the smiling dawn, and I swear by every eloquent and silent thing, that you want to test my knowledge and for it you have hidden a deenar under your feet.'</em>"</p></div>
+<div class="para-row"><span class="page-ref">p.81</span><p class="para-text">Soteh continued: <em>"A time will come when good people will cease to exist in this world. Mischief mongers will rule the roost. All this will happen when an ominous star will rise in the sky. Berbers will then enter Egypt riding yellow vehicles. A descendant of Sakhar will then emerge. This fellow will transform black banners into red. He will legalise the forbidden and violate the modesty of women. This is the man who will ruin <span class="place">Koofa<span class="tip">Kufa · Najaf Governorate, Iraq</span></span>. At such a critical time — a progeny of the Holy Prophet — Mahdi will emerge. A ruler will emerge in <span class="place">Yemen<span class="tip">Yemen · Arabian Peninsula</span></span>. His colour will be white like cotton. His name will be either Hasan or Husain. Upon his emergence discords will be quelled. The auspicious Mahdi will then become manifest. He will bring peace and pleasure to the world."</em></p></div>
+</section>
+
+<div class="ornament-line"><span>✦ ✦ ✦</span></div>
+
+<section class="book-section" id="jamasp">
+<h2 class="section-heading">The Ancient Iranian Astrologer Jamasp</h2>
+<div class="para-row"><span class="page-ref">p.82</span><p class="para-text drop-cap">This matter is taken from Jamasp Nama. It is recorded that King Gushtasp once asked the wiseman Jamasp: "When will there be the salvation of animals and men and what are the signs of it?" The savant Jamasp replied: <em>"The wolfish Russians will attack <span class="place">Iran<span class="tip">Iran · Islamic Republic of Iran</span></span> in large numbers. Good people will become weak. Many creatures of God will be killed. Unprecedented tyranny and oppression will prevail throughout the world. Great wars will be fought near the banks of river <span class="place">Euphrates<span class="tip">Euphrates · major river through Turkey, Syria and Iraq</span></span> and <span class="place">Tigris<span class="tip">Tigris · major river through Turkey, Syria and Iraq</span></span> between Nazis, Russians and Europeans. The king of religion will then manifest himself in the strife-torn world."</em></p></div>
+<div class="para-row"><span class="page-ref">p.83</span><p class="para-text">Jamasp predicted that there will emerge a one-eyed man in Arabia. First he will proclaim himself as a prophet, and afterwards he will claim to be God. He will murder a large number of people. This fellow is termed as Dajjal in Muslim traditions. In another poem the savant Jamasp had predicted the end of emperor's rule in Iran. After that he predicted ruin of Iran as a result of attacks from Russia and China, and also the arrival of Mahdi the master of the age.</p></div>
+</section>
+
+<div class="ornament-line"><span>✦ ✦ ✦</span></div>
+
+<section class="book-section" id="jean-dixon-2">
+<h2 class="section-heading">Jean Dixon Recalled</h2>
+<div class="para-row"><span class="page-ref">p.85</span><p class="para-text drop-cap">Jean Dixon says: <em>"My vision shows me the year 2000 A.D. — the Mongol and Chinese armies launch repeated attacks on the Middle East. Sanguine war is being fought on the east bank of river <span class="place">Jordan<span class="tip">Jordan River · flows through Jordan Valley, forming border between Israel/Palestine and Jordan</span></span>. This war will cause great loss to the countries of the Middle East. Armed conflicts will occur in Africa and Latin America also."</em></p></div>
+<div class="para-row"><span class="page-ref"></span><p class="para-text"><em>"Side by side with this, I visualize that a progeny of patriarch Abraham has taken birth in 1962 A.D. in the Middle East. He will introduce much needed reforms to the world. Different religions of the world will gather together to form a world religion. By 1980, his powers will be felt on a universal scale. From then onwards he will achieve success after success. By 1999, he will become the absolute ruler of planet earth. This boy would resemble Jesus in most of his traits but his religion would be different from the religion of Christianity. His advent will cause spiritual awakening in the Arab world. From his headquarters in <span class="place">Jerusalem<span class="tip">Jerusalem · Holy City, Israel/Palestine</span></span> he will spread faith in God over the whole world."</em></p></div>
+<div class="para-row"><span class="page-ref">p.86</span><p class="para-text"><em>"I visualise many heavenly and earthly revolutions occurring in this century. Earthquakes will be so many that some rivers will become quite dry while several rivers will change their courses. The present day generation which has moved away from its spiritual heritage will have to bear innumerable difficulties and calamities. We will have to face a catastrophic war in which precious lives of men and animals will be lost. The damage and destruction will be so much that it will be made up only after the advent of the awaited spiritual leader."</em></p></div>
+</section>
+
+<div class="ornament-line"><span>✦ ✦ ✦</span></div>
+
+<section class="book-section" id="compiler-note">
+<h2 class="section-heading">Compiler's Notes — Points to Ponder</h2>
+<div class="para-row"><span class="page-ref">p.87</span><p class="para-text drop-cap">Before I put an end to the subject matter I was discussing, it is really amazing that by now — when this book is under printing process — many auguries published in the first edition have been witnessed as fulfilled. Among them are: napalm bomb, woman's marriage with a woman (legal sanction was granted to sodomy in Britain), a brother married his own sister in Bonn, Germany in 1973. Legal protection to homosexuality was extended in America and Britain in 1973. Middle East War took place. Ban on Hajj via land route was imposed. Earthquakes at various places on earth have become frequent. Accidental deaths had become common. Price hikes have become a day-to-day affair. Floods occur now and then.</p></div>
+<div class="para-row"><span class="page-ref">p.88</span><p class="para-text"><strong>1. Fire and Smoke:</strong> During the two World Wars and Indo-Pak Wars of 1965 and 1971 A.D. bombs were used and the atmosphere was filled with smoke. <strong>2. Landslides:</strong> It is possible due to frequent occurrences of earthquakes and also as a result of the use of sophisticated weaponry. Landslides have occurred in Iran; now it is the turn of Arabia. <strong>3. Prevalence of Homosexuality:</strong> This evil is not yet commonly accepted. Eventually it will be. <strong>6. Prohibition on Hajj and Pilgrimages:</strong> This augury is also pending, though hindrances of various kinds have begun to appear. <strong>8. Worldwide Price Hikes:</strong> This is too evident to need any comprehension nowadays. <strong>11. Black, red and blue flags:</strong> Different types of flags will be responsible for the destruction of this world. Red is the colour of communist countries. The flags of America and Israel are blue while the flags of Arab countries are mostly black.</p></div>
+</section>
+
+<div class="ornament-line"><span>✦ ✦ ✦</span></div>
+
+<section class="book-section" id="conclusions">
+<h2 class="section-heading">Concluding Discussions</h2>
+<div class="para-row"><span class="page-ref">p.89</span><p class="para-text drop-cap">I will not budge from the mission of my life as long as I live and I shall publish the remaining relevant material as part two of this book. I am very happy to note that after the publication of this book, no leader of those self-styled Qadiyanis or Bahais could come to interpret any Hadith in a wrong manner. It also became evident that our divine leader possessed the knowledge of all times. My soul felt a sense of relief seeing that I have disseminated the knowledge of the superiority of Ahlul Bait among non-Muslims also.</p></div>
+<div class="para-row"><span class="page-ref">p.90</span><p class="para-text">I urge the readers to make a contemporary study of this book and the world events and see for themselves. This is a period of transition and surprising events are likely to take place. Also, as far as possible, give this book to non-Shias and non-Muslims to read so that they might also realise the veracity of the holy Ahlul Bait. If possible, get this book translated in other languages with my permission.</p></div>
+<div class="para-row"><span class="page-ref"></span><p class="para-text">I also pray to the Almighty with utmost humility that He should grant guidance to us all and keep us immune from the lures of misguidance. Our sixth apostolic Imam Jafar Sadiq (A.S.) had said: <em>"The people of the world will soon be engrossed in doubts, because their Imam will be invisible from them. Those who seek to remain safe from doubts should recite 'Doa-e-Ghareeq' and pray for safety: 'Ya Allaho, Ya Rahmano, Ya Raheemo, Ya Muqallibal Quloob, Sabbit Qalabi ala Deenaka.'"</em></p></div>
+<div class="para-row"><span class="page-ref"></span><p class="para-text">Concluding the discussion, I affirm before the readers that I am but a student and mistakes committed by students are common. If they find any mistakes in the context they should inform me so that I may correct them and the future edition may be flawless.</p></div>
+<p class="attribution">Sayyed Mohammed Abbas "Qamar" Zaidi</p>
+<p class="attribution-title">Baitul Abbas, 919/20, Sadat Colony, Federal "B" Area, Karachi-38, Pakistan · November 29, 1979</p>
+</section>
+
+<div class="ornament-line"><span>✦ ✦ ✦</span></div>
+
+<section class="book-section" id="glossary-4">
+<h2 class="section-heading">Geographical Glossary — Part IV</h2>
+<p class="epigraph">Historical place names in this section and their modern equivalents</p>
+<div class="glossary-grid">
+  <div class="glossary-item"><span class="glossary-old">Zoora</span><span class="glossary-arrow">→</span><span class="glossary-new">Baghdad, <strong>Iraq</strong> (classical name)</span></div>
+  <div class="glossary-item"><span class="glossary-old">Naharwan</span><span class="glossary-arrow">→</span><span class="glossary-new">Near Baghdad, <strong>Iraq</strong> — site of 658 CE battle</span></div>
+  <div class="glossary-item"><span class="glossary-old">Baitul Miqdas</span><span class="glossary-arrow">→</span><span class="glossary-new">Jerusalem, <strong>Israel/Palestine</strong></span></div>
+  <div class="glossary-item"><span class="glossary-old">Iskandariya</span><span class="glossary-arrow">→</span><span class="glossary-new">Alexandria, <strong>Egypt</strong></span></div>
+  <div class="glossary-item"><span class="glossary-old">Ctesiphon / Madaen</span><span class="glossary-arrow">→</span><span class="glossary-new">Near Baghdad, Saladin Governorate, <strong>Iraq</strong></span></div>
+  <div class="glossary-item"><span class="glossary-old">Tus / Toos</span><span class="glossary-arrow">→</span><span class="glossary-new">Near Mashhad, Razavi Khorasan, <strong>Iran</strong></span></div>
+  <div class="glossary-item"><span class="glossary-old">Termez / Tirmiz</span><span class="glossary-arrow">→</span><span class="glossary-new">Termez, Surxondaryo Region, <strong>Uzbekistan</strong></span></div>
+  <div class="glossary-item"><span class="glossary-old">Istakhr / Astakhar</span><span class="glossary-arrow">→</span><span class="glossary-new">Ruins near Persepolis, Fars Province, <strong>Iran</strong></span></div>
+  <div class="glossary-item"><span class="glossary-old">Kairouan / Qairwan</span><span class="glossary-arrow">→</span><span class="glossary-new">Kairouan, Kairouan Governorate, <strong>Tunisia</strong></span></div>
+  <div class="glossary-item"><span class="glossary-old">Derbent / Bab-ul-Abwab</span><span class="glossary-arrow">→</span><span class="glossary-new">Derbent, Dagestan, <strong>Russia</strong></span></div>
+  <div class="glossary-item"><span class="glossary-old">Nusaybin / Nasibain</span><span class="glossary-arrow">→</span><span class="glossary-new">Nusaybin, Mardin Province, <strong>Turkey</strong></span></div>
+  <div class="glossary-item"><span class="glossary-old">Tabaristan</span><span class="glossary-arrow">→</span><span class="glossary-new">Mazandaran Province, northern <strong>Iran</strong></span></div>
+  <div class="glossary-item"><span class="glossary-old">Shirvan / Sherwan</span><span class="glossary-arrow">→</span><span class="glossary-new">Shirvan, southeastern <strong>Azerbaijan</strong></span></div>
+  <div class="glossary-item"><span class="glossary-old">Harran / Haran</span><span class="glossary-arrow">→</span><span class="glossary-new">Harran, Şanlıurfa Province, <strong>Turkey</strong></span></div>
+  <div class="glossary-item"><span class="glossary-old">Samsat</span><span class="glossary-arrow">→</span><span class="glossary-new">Samsat (now submerged by Atatürk Dam), Adıyaman, <strong>Turkey</strong></span></div>
+  <div class="glossary-item"><span class="glossary-old">Fergana / Farghand</span><span class="glossary-arrow">→</span><span class="glossary-new">Fergana, Fergana Region, <strong>Uzbekistan</strong></span></div>
+  <div class="glossary-item"><span class="glossary-old">Asqalan</span><span class="glossary-arrow">→</span><span class="glossary-new">Ashkelon, Southern District, <strong>Israel</strong></span></div>
+  <div class="glossary-item"><span class="glossary-old">Kalat / Qalat</span><span class="glossary-arrow">→</span><span class="glossary-new">Kalat, Balochistan Province, <strong>Pakistan</strong></span></div>
+  <div class="glossary-item"><span class="glossary-old">Persian Gulf / Shatt</span><span class="glossary-arrow">→</span><span class="glossary-new">Persian Gulf (body of water between <strong>Arabian Peninsula and Iran</strong>)</span></div>
+  <div class="glossary-item"><span class="glossary-old">Sarakhs / Sarkhas</span><span class="glossary-arrow">→</span><span class="glossary-new">Sarakhs, on <strong>Iran-Turkmenistan</strong> border</span></div>
+</div>
+</section>
+
+<footer class="book-footer">
+  <div style="color:var(--gold);margin-bottom:0.75rem;letter-spacing:0.3em;">· · ✦ · ·</div>
+  <p>This modernised and annotated edition is presented for research and educational purposes.<br>
+  Original text compiled by Al-Hajj Molana Syyed Mohammad Abbas Qamar Zaidi · Karachi, 1979</p>
+  <p style="margin-top:0.75rem;"><em>End of Qayamat-e-Sughra — The Auguries of Advent</em></p>
+</footer>
+
+</main>
+</div>
+
+<script>
+// ── THEME TOGGLE ──
+const html = document.documentElement;
+const THEME_KEY = 'qs-theme';
+
+function getSystemDark() {
+  return window.matchMedia('(prefers-color-scheme: dark)').matches;
+}
+
+function applyTheme(theme) {
+  // theme: 'dark' | 'light' | 'auto'
+  html.classList.remove('dark','light');
+  if (theme === 'dark') html.classList.add('dark');
+  else if (theme === 'light') html.classList.add('light');
+  // 'auto' = no class, CSS media query handles it
+  localStorage.setItem(THEME_KEY, theme);
+  updateThemeIcons(theme);
+}
+
+function updateThemeIcons(theme) {
+  const isDark = theme === 'dark' || (theme === 'auto' && getSystemDark());
+  const icon = isDark ? '☀' : '🌙';
+  const label = isDark ? 'Switch to day mode' : 'Switch to night mode';
+  ['theme-toggle','mob-theme-toggle'].forEach(id => {
+    const btn = document.getElementById(id);
+    if (btn) { btn.textContent = icon; btn.setAttribute('aria-label', label); }
+  });
+}
+
+function cycleTheme() {
+  const current = localStorage.getItem(THEME_KEY) || 'auto';
+  // Cycle: auto → dark → light → auto
+  const next = current === 'auto' ? 'dark' : current === 'dark' ? 'light' : 'auto';
+  applyTheme(next);
+}
+
+// Init theme
+const savedTheme = localStorage.getItem(THEME_KEY) || 'auto';
+applyTheme(savedTheme);
+
+['theme-toggle','mob-theme-toggle'].forEach(id => {
+  const btn = document.getElementById(id);
+  if (btn) btn.addEventListener('click', cycleTheme);
+});
+
+// Update icon if system theme changes while on 'auto'
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+  const t = localStorage.getItem(THEME_KEY) || 'auto';
+  if (t === 'auto') updateThemeIcons('auto');
+});
+
+// ── FONT SIZE ──
+const root = document.documentElement;
+let currentSize = parseInt(localStorage.getItem('qs-fontsize') || '18');
+
+function applySize(s) {
+  currentSize = Math.min(26, Math.max(14, s));
+  root.style.setProperty('--base-size', currentSize + 'px');
+  ['fs-val','mob-fs-val'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = currentSize;
+  });
+  localStorage.setItem('qs-fontsize', currentSize);
+}
+
+applySize(currentSize);
+['fs-up','mob-fs-up','top-fs-up'].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) el.addEventListener('click', () => applySize(currentSize + 2));
+});
+['fs-down','mob-fs-down','top-fs-down'].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) el.addEventListener('click', () => applySize(currentSize - 2));
+});
+
+// ── MOBILE DRAWER ──
+const drawer = document.getElementById('mobile-drawer');
+const panel = document.getElementById('drawer-panel');
+const backdrop = document.getElementById('drawer-backdrop');
+const menuBtn = document.getElementById('menu-open');
+const closeBtn = document.getElementById('drawer-close');
+
+function openDrawer() {
+  drawer.style.display = 'block';
+  drawer.setAttribute('aria-hidden','false');
+  requestAnimationFrame(() => panel.classList.add('open'));
+  document.body.style.overflow = 'hidden';
+}
+function closeDrawer() {
+  panel.classList.remove('open');
+  document.body.style.overflow = '';
+  setTimeout(() => {
+    drawer.style.display = 'none';
+    drawer.setAttribute('aria-hidden','true');
+  }, 260);
+}
+
+if (menuBtn) menuBtn.addEventListener('click', openDrawer);
+if (closeBtn) closeBtn.addEventListener('click', closeDrawer);
+if (backdrop) backdrop.addEventListener('click', closeDrawer);
+
+// Close drawer on link click
+document.querySelectorAll('.drawer-link').forEach(link => {
+  link.addEventListener('click', () => setTimeout(closeDrawer, 80));
+});
+
+// ── SCROLL SPY ──
+const sections = document.querySelectorAll('.book-section, .part-banner');
+const sideLinks = document.querySelectorAll('.sidenav-link:not(.dim)');
+const drawerLinks = document.querySelectorAll('.drawer-link');
+const mobileTitle = document.getElementById('mobile-current-section');
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const id = entry.target.id;
+      if (!id) return;
+
+      // Update sidenav
+      sideLinks.forEach(l => l.classList.remove('active'));
+      const sideActive = document.querySelector(`.sidenav-link[href="#${id}"]`);
+      if (sideActive) {
+        sideActive.classList.add('active');
+        sideActive.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+      }
+
+      // Update drawer
+      drawerLinks.forEach(l => l.classList.remove('active'));
+      const drawerActive = document.querySelector(`.drawer-link[href="#${id}"]`);
+      if (drawerActive) drawerActive.classList.add('active');
+
+      // Update mobile title
+      if (mobileTitle) {
+        const heading = entry.target.querySelector('.section-heading, .part-title');
+        if (heading) {
+          let txt = heading.textContent.replace(/[✦]/g,'').trim();
+          if (txt.length > 28) txt = txt.slice(0, 26) + '…';
+          mobileTitle.textContent = txt;
+        }
+      }
+    }
+  });
+}, { rootMargin: '-10% 0px -75% 0px' });
+
+sections.forEach(s => { if (s.id) observer.observe(s); });
+
+// ── TOOLTIP EDGE DETECTION ──
+// Prevent tooltips from overflowing the viewport
+document.querySelectorAll('.place').forEach(place => {
+  const tip = place.querySelector('.tip');
+  if (!tip) return;
+
+  function adjustTip() {
+    tip.classList.remove('edge-left','edge-right');
+    // Temporarily make measurable
+    const prevVis = tip.style.visibility;
+    tip.style.visibility = 'hidden';
+    tip.style.opacity = '0';
+    tip.style.display = 'block';
+
+    const rect = tip.getBoundingClientRect();
+    const margin = 8;
+
+    if (rect.left < margin) {
+      tip.classList.add('edge-left');
+    } else if (rect.right > window.innerWidth - margin) {
+      tip.classList.add('edge-right');
+    }
+
+    tip.style.display = '';
+    tip.style.visibility = prevVis;
+    tip.style.opacity = '';
+  }
+
+  place.addEventListener('mouseenter', adjustTip);
+  place.addEventListener('touchstart', adjustTip, { passive: true });
+});
+</script>
+</body>
+</html>
